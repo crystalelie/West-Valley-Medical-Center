@@ -26,18 +26,81 @@
     </div>
 
   <div class="col-s-9">
-    <h1>Treatments</h1>
+    <div style="text-align: center;"><h1>Treatment Directory</h1></div>
   
       <!-- TABLE -->
-      <div class="child">
-        
+      <div class="table" style="margin-left: auto; margin-right: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Patient</th>
+              <th>Medication</th>
+              <th>Frequency</th>
+            </tr>
+          </thead>
+          <tbody>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><button type="button">Delete</button></td>
+          </tbody>
+        </table>
         </div>
-      </div>
 
-    <!-- FORMS -->
+
+  <!-- FORMS -->
+  <div class="float">
     <div class="child">
-
+      <h1>Add A New Treatment</h1>
+      <p>Add a new treatment by entering the patient's</p>
+      <p>ID, medication, and frequency.</p>
+      <form method="POST">
+        <fieldset>
+          <label for="ID">Patient ID:</label>
+          <input type="text" id="ID">
+        </br>
+        </br>
+          <label for="medication">Medication:</label>
+          <input type="text" id="medication">
+        </br>
+        </br>
+          <label for="frequency">Frequency:</label>
+          <input type="text" id="frequency">
+          </br>
+          </br>
+          <input type="submit" value="Submit">
+        </fieldset>
+      </form>
     </div>
+
+    <div class="child">
+      <h1>Update a Treatment</h1>
+      <p>Update a patient's ID, medication and/or</p>
+      <p>frequency.</p>
+      <form method="POST">
+        <fieldset>
+          <label for="ID">Patient ID:</label>
+          <input type="text" id="ID">
+        </br>
+        </br>
+          <label for="medication">Medication:</label>
+          <input type="text" id="medication">
+        </br>
+        </br>
+          <label for="frequency">Frequency</label>
+          <input type="text" id="frequency">
+          </br>
+          </br>
+          <input type="submit" value="Submit">
+        </fieldset>
+      </form>
+    </div>
+
+
+  </div>
+</div>
 </div>
 
 

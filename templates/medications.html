@@ -26,17 +26,80 @@
     </div>
 
   <div class="col-s-9">
-    <h1>Medication Directory</h1>
+    <div style="text-align: center;"><h1>Medication Directory</h1></div>
   
       <!-- TABLE -->
-      <div class="child">
+      <div class="table" style="margin-left: auto; margin-right: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Dosage</th>
+              <th>Unit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><button type="button">Delete</button></td>
+          </tbody>
+        </table>
         </div>
-  </div>
 
-    <!-- FORMS -->
+
+      <!-- FORMS -->
+  <div class="float">
     <div class="child">
-
+      <h1>Add a New Medication</h1>
+      <p>Add a new medication by entering the name,</p>
+      <p>dosage and unit.</p>
+      <form method="POST">
+        <fieldset>
+          <label for="name">Name:</label>
+          <input type="text" id="name">
+        </br>
+        </br>
+          <label for="dosage">Dosage:</label>
+          <input type="text" id="dosage">
+        </br>
+        </br>
+          <label for="unit">Unit:</label>
+          <input type="text" id="unit">
+          </br>
+          </br>
+          <input type="submit" value="Submit">
+        </fieldset>
+      </form>
     </div>
+
+    <div class="child">
+      <h1>Update a Medication</h1>
+      <p>Update a medication's name,</p>
+      <p>dosage and/or unit.</p>
+      <form method="POST">
+        <fieldset>
+          <label for="name">Name:</label>
+          <input type="text" id="name">
+        </br>
+        </br>
+          <label for="dosage">Dosage:</label>
+          <input type="text" id="dosage">
+        </br>
+        </br>
+          <label for="unit">Unit:</label>
+          <input type="text" id="unit">
+          </br>
+          </br>
+          <input type="submit" value="Submit">
+        </fieldset>
+      </form>
+    </div>
+
+  </div>
+</div>
 </div>
 
 

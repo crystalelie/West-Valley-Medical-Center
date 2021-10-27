@@ -26,18 +26,95 @@
     </div>
 
   <div class="col-s-9">
-    <h1>Physicians</h1>
+    <div style="text-align: center;"><h1>Physician Directory</h1></div>
   
       <!-- TABLE -->
-      <div class="child">
-        
+      <div class="table" style="margin-left: auto; margin-right: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Specialty</th>
+            </tr>
+          </thead>
+          <tbody>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><button type="button">Delete</button></td>
+          </tbody>
+        </table>
         </div>
-      </div>
+      
 
     <!-- FORMS -->
+    <div class="float">
     <div class="child">
-
+      <h1>Add A New Physician</h1>
+      <p>Add a new physician by inputting their first</p>
+      <p>name, last name, and specialty.</p>
+      <form method="POST">
+        <fieldset>
+          <label for="firstname">First Name:</label>
+          <input type="text" id="firstname">
+        </br>
+        </br>
+          <label for="lastname">Last Name:</label>
+          <input type="text" id="lastname">
+        </br>
+        </br>
+          <label for="specialty">Specialty:</label>
+          <input type="text" id="specialty">
+          </br>
+          </br>
+          <input type="submit" value="Submit">
+        </fieldset>
+      </form>
     </div>
+
+    <div class="child">
+      <h1>Update a Physician</h1>
+      <p>Update a physician's first name,</p>
+      <p>last name, and/or specialty.</p>
+      <form method="POST">
+        <fieldset>
+          <label for="firstname">First Name:</label>
+          <input type="text" id="firstname">
+        </br>
+        </br>
+          <label for="lastname">Last Name:</label>
+          <input type="text" id="lastname">
+        </br>
+        </br>
+          <label for="specialty">Specialty:</label>
+          <input type="text" id="specialty">
+          </br>
+          </br>
+          <input type="submit" value="Submit">
+        </fieldset>
+      </form>
+    </div>
+
+    <div class="child">
+      <h1>Filter By Specialty</h1>
+      <p>Enter a specialty to filter</p>
+      <p>the physician's by.</p>
+      <form method="POST">
+        <fieldset>
+          <label for="specialty">Specialty:</label>
+          <input type="text" id="specialty">
+        </br>
+        </br>
+          <input type="submit" value="Submit">
+        </fieldset>
+      </form>
+    </div>
+
+  </div>
+</div>
 </div>
 
 
