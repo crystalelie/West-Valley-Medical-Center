@@ -26,15 +26,51 @@
     </div>
 
   <div class="col-s-9">
-    <h1>Patients</h1>
-    <div class="float" style="padding: 20px;">
-
-      <div class="col-s-9 child"> FORMS</div>
+    <h1>Patient Directory</h1>
   
-      <div class="col-s-9 child">
-     <!-- DIV FOR THE TABLE VIEW-->
+      <div class="child">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>SSN</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Street Address</th>
+              <th>City</th>
+              <th>Zip Code</th>
+              <th>Phone Number</th>
+            </tr>
+          </thead>
+          <tbody>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><button type="button">Delete</button></td>
+          </tbody>
+        </table>  
         </div>
       </div>
+
+    <!-- FORMS -->
+    <div class="child">
+      <h1>Patient Search</h1>
+      <p>
+        Search by entering a patient's first name, last name, or both first and last name.
+      </p>
+      <form action="/patientsearch" method="POST">
+        <fieldset style="width:30%">
+          <label for="name">Patient name</label>
+          <input type="text" id="name">
+          <input type="submit" value="Submit">
+        </fieldset>
+      </form>
+    </div>
 </div>
 
 
