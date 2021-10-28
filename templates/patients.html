@@ -23,16 +23,10 @@
         <a href="{{ url_for('treatments')}}"><li>Treatments</li></a>
         </ul>
       </div>
-<<<<<<< HEAD
-  </div>
     
-    <div>
-=======
-    
->>>>>>> b894cfe822e6e457b0071e04702ea58fa6e0b622
       <h1>Patient Search</h1>
       <p>
-        Search by entering a patient's first name, last name, or both first and last name.
+        Search by entering a patient's first name, last name, or both first and last name separated by a space.
       </p>
       <form action="/patientsearch" method="POST">
         <fieldset>
@@ -43,21 +37,35 @@
       </form>
     </div>
 
-<<<<<<< HEAD
-  <div class="col-s-9">
-      <h1>Patient Directory</h1>
-      <div class="float" style="padding: 20px;">
+    <div>
+      <h2>Add Patient</h2>
+      <form action="/addpatient" method="POST">
+        <fieldset>
+          <label for="ssn">SSN</label>
+          <input type="text" id="ssn">
+          <label for="dob">Date of Birth</label>
+          <input type="text" id="dob">
+          <label for="fname">First Name</label>
+          <input type="text" id="fname">
+          <label for="lname">Last Name</label>
+          <input type="text" id="lname">
+          <label for="street">Street Address</label>
+          <input type="text" id="street">
+          <label for="city">City</label>
+          <input type="text" id="city">
+          <label for="zip">Zip Code</label>
+          <input type="text" id="zip">
+          <label for="phone">Phone Number</label>
+          <input type="text" id="phone">
+          <input type="submit" value="Submit">
+        </fieldset>
+      </form>
+    </div>
 
-   
-    
-        <div class="col-s-9 child">
-      <!-- DIV FOR THE TABLE VIEW-->
-=======
     <div class="col-s-9">
-      <div style="text-align: center;"><h1>Patient Directory</h1></div>
+      <div style="text-align: center;"><h3>Patient Directory</h3></div>
       <!-- DIV FOR THE TABLE VIEW-->
       <div class="table" style="margin-left: auto; margin-right: auto;">
->>>>>>> b894cfe822e6e457b0071e04702ea58fa6e0b622
           <table>
             <thead>
               <tr>
@@ -70,9 +78,11 @@
                 <th>City</th>
                 <th>Zip Code</th>
                 <th>Phone Number</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
