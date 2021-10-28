@@ -7,71 +7,69 @@
 </head>
 <body>
 
-<div class="header">
-  <h1>West Valley Medical Center Database</h1>
-</div>
+  <div class="header">
+    <h1>West Valley Medical Center Database</h1>
+  </div>
 
-<div class="row">
-    <div class="col-s-2 menu" style='text-align: center;'>
-      <ul>
-      <a href="{{ url_for('home')}}"><li> Home</li></a>
-      <a href="{{ url_for('medications')}}"><li>Medications</li></a>
-      <a href="{{ url_for('nurses')}}"><li>Nurses</li></a>
-      <a href="{{ url_for('patients')}}"><li>Patients</li></a>
-      <a href="{{ url_for('patientdetails')}}" ><li>Patient Details</li></a>
-      <a href="{{ url_for('physicians')}}"><li>Physicians</li></a>
-      <a href="{{ url_for('treatments')}}"><li>Treatments</li></a>
-  
-      </ul>
-    </div>
-
-  <div class="col-s-9">
-    <h1>Patient Directory</h1>
-  
-      <div class="child">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>SSN</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Street Address</th>
-              <th>City</th>
-              <th>Zip Code</th>
-              <th>Phone Number</th>
-            </tr>
-          </thead>
-          <tbody>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><button type="button">Delete</button></td>
-          </tbody>
-        </table>  
-        </div>
+  <div class="row">
+      <div class="col-s-2 menu" style='text-align: center;'>
+        <ul>
+        <a href="{{ url_for('home')}}"><li> Home</li></a>
+        <a href="{{ url_for('medications')}}"><li>Medications</li></a>
+        <a href="{{ url_for('nurses')}}"><li>Nurses</li></a>
+        <a href="{{ url_for('patients')}}"><li>Patients</li></a>
+        <a href="{{ url_for('patientdetails')}}" ><li>Patient Details</li></a>
+        <a href="{{ url_for('physicians')}}"><li>Physicians</li></a>
+        <a href="{{ url_for('treatments')}}"><li>Treatments</li></a>
+        </ul>
       </div>
-
-    <!-- FORMS -->
-    <div class="child">
+    
       <h1>Patient Search</h1>
       <p>
         Search by entering a patient's first name, last name, or both first and last name.
       </p>
       <form action="/patientsearch" method="POST">
-        <fieldset style="width:30%">
+        <fieldset>
           <label for="name">Patient name</label>
           <input type="text" id="name">
           <input type="submit" value="Submit">
         </fieldset>
       </form>
     </div>
-</div>
+
+    <div class="col-s-9">
+      <div style="text-align: center;"><h1>Patient Directory</h1></div>
+      <!-- DIV FOR THE TABLE VIEW-->
+      <div class="table" style="margin-left: auto; margin-right: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>SSN</th>
+                <th>DOB</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Street Address</th>
+                <th>City</th>
+                <th>Zip Code</th>
+                <th>Phone Number</th>
+              </tr>
+            </thead>
+            <tbody>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><button type="button">Delete</button></td>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  </div>
 
 
 
