@@ -24,45 +24,73 @@
     
         </ul>
       </div>
-  </div>
 
-  <div>
-    <h1>Patient Details</h1>
-    <p>
-      List of details for all patients at West Valley. 
-      To change the physician or nurse associated with a patient, click the update button next to the patient you would like to edit. 
-      If a patient is no longer under care by a physician or nurse, remove the physician and/or nurse ID when editing the patient.
-    </p>
+    <div class="col-s-9">
+        <div style="text-align: center;"><h1>Patient Details</h1></div>
+  <div class="table" style="margin-left: auto; margin-right: auto;">
     <table>
       <thead>
         <th>Patient ID</th>
         <th>Physician ID</th>
         <th>Nurse ID</th>
-        <th></th>
       </thead>
       <tbody>
         <td></td>
         <td></td>
         <td></td>
-        <td><button type="button">Update</button></td>
       </tbody>
     </table>
   </div>
 
-  <div>
-    <h2>Add Patient Details</h2>
+<div class="float">
+  <div class="child">
+    <h1 style="text-align: center;">Add Patient Details</h1>
+    <p>Add new patient details by entering the patient's</p>
+    <p>ID, the Physician's ID and the Nurse's ID.</p>
     <form>
       <fieldset>
-        <label for="patient">Patient ID</label>
+        <label for="patient">Patient ID:</label>
         <input type="text" id="patient">
-        <label for="physician">Physician ID</label>
+      </br>
+      </br>
+        <label for="physician">Physician ID:</label>
         <input type="text" id="physician">
-        <label for="nurse">Nurse ID</label>
+      </br>
+      </br>
+        <label for="nurse">Nurse ID:</label>
         <input type="text" id="nurse">
+      </br>
+      </br>
         <input type="submit" value="Submit">
       </fieldset>
     </form>
   </div>
+
+  <div class="child">
+    <h1 style="text-align: center;">Update Patient Details</h1>
+    <p>Update a patient's detail by changing or</p>
+    <p>removing the physician or nurse.</p>
+    <form>
+      <fieldset>
+        <label for="patient">Patient ID:</label>
+        <input type="text" id="patient">
+      </br>
+      </br>
+        <label for="physician">Physician ID:</label>
+        <input type="text" id="physician">
+      </br>
+      </br>
+        <label for="nurse">Nurse ID:</label>
+        <input type="text" id="nurse">
+      </br>
+      </br>
+        <input type="submit" value="Submit">
+      </fieldset>
+    </form>
+  </div>
+
+</div>
+</div>
 
 
 
