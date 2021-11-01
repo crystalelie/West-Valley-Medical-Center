@@ -46,9 +46,9 @@ All medications that Physicians at the West Valley Medical Center can prescribe 
 
 ### Treatments ###
 The West Valley Medical Center keeps records of all treatment plans that patients are going through during their stay. This can include one or more lines for each patient id, since a patient can take one or more medications.
--	treatmentID: int, auto_increment, not NULL, PK
 -	patientID: int, not NULL, FK
 -	medicationID: int, not NULL, FK
+-	frequency: varchar(255), not NULL
 
 ## Relationships ##
 - M:M relationship between Medications and Patient Details is implemented with medicationID and patientID as a FKs in Treatments.
