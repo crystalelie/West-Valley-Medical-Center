@@ -54,4 +54,4 @@ The West Valley Medical Center keeps records of all treatment plans that patient
 - M:M relationship between Medications and Patient Details is implemented with medicationID and patientID as a FKs in Treatments.
 - 1:M relationship between Nurses and Patient Details is implemented with nurseID as a FK inside of Patient Details. 
 - 1:1 relationship between Patients and Patient Details is implemented with patientID as a FK inside of Patients Details. 
-- 1:M relationship between Nurses and Patient Details is implemented with nurseID as a FK inside of Patient Details.
+- 1:M relationship between Physicians and Patient Details is implemented with nurseID as a FK inside of Patient Details.
