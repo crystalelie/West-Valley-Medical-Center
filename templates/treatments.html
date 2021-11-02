@@ -25,7 +25,7 @@
       </ul>
     </div>
 
-  <div class="col-s-9">
+  <div class="col-s-10">
     <div style="text-align: center;"><h1>Treatment Directory</h1></div>
   
       <!-- TABLE -->
@@ -33,17 +33,17 @@
         <table>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Patient</th>
-              <th>Medication</th>
+              <th>Patient ID</th>
+              <th>Medication ID</th>
               <th>Frequency</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
+            <td><button type="button">Delete</button></td>
           </tbody>
         </table>
         </div>
@@ -54,18 +54,18 @@
     <div class="child">
       <h1>Add A New Treatment</h1>
       <p>Add a new treatment by entering the patient's</p>
-      <p>ID, medication, and frequency.</p>
+      <p>ID, medication ID, and frequency.</p>
       <form method="POST">
         <fieldset>
-          <label for="ID">Patient ID:</label>
-          <input type="text" id="ID">
+          <label for="ID">Patient ID*:</label>
+          <input type="number" id="ID">
         </br>
         </br>
-          <label for="medication">Medication:</label>
-          <input type="text" id="medication">
+          <label for="medication">Medication ID*:</label>
+          <input type="number" id="medication">
         </br>
         </br>
-          <label for="frequency">Frequency:</label>
+          <label for="frequency">Frequency*:</label>
           <input type="text" id="frequency">
           </br>
           </br>
@@ -76,19 +76,19 @@
 
     <div class="child">
       <h1>Update a Treatment</h1>
-      <p>Update a patient's ID, medication and/or</p>
+      <p>Update a patient's ID, medication ID and/or</p>
       <p>frequency.</p>
       <form method="POST">
         <fieldset>
-          <label for="ID">Patient ID:</label>
-          <input type="text" id="ID">
+          <label for="ID">Patient ID*:</label>
+          <input type="number" id="ID">
         </br>
         </br>
-          <label for="medication">Medication:</label>
-          <input type="text" id="medication">
+          <label for="medication">Medication ID*:</label>
+          <input type="number" id="medication">
         </br>
         </br>
-          <label for="frequency">Frequency</label>
+          <label for="frequency">Frequency*:</label>
           <input type="text" id="frequency">
           </br>
           </br>
@@ -97,8 +97,32 @@
       </form>
     </div>
 
-
+    <div class="child">
+      <h1 style="text-align: center;">Filter By Patient</h1>
+      <p>Enter a patient's ID to filter</p>
+      <p>the treatments by.</p>
+      <form method="POST">
+        <fieldset>
+          <label for="ID">Patient ID*:</label>
+          <input type="number" id="ID">
+        </br>
+        </br>
+          <input type="submit" value="Submit">
+        </fieldset>
+      </form>
+    </div>
   </div>
+
+  <div class="note">
+    <p><h3>-Acceptable notation for Frequency is as follows:</h3>
+      <ul><b>QD</b>: Once daily</ul>
+      <ul><b>TID</b>: Three times daily</ul>
+      <ul><b>QID</b>: 4 times daily</ul>
+      <ul><b>q_H</b>: _ units per _ hours (i.e. 4q3H: 4 units every 3 hours) </ul>
+    </p>
+    <p>-Any item that is marked with a "*" is a required field. If one of these fields are not entered, then the information will not be added/updated.</p>
+  </div>
+
 </div>
 </div>
 

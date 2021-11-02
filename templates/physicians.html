@@ -25,7 +25,7 @@
       </ul>
     </div>
 
-  <div class="col-s-9">
+  <div class="col-s-10">
     <div style="text-align: center;"><h1>Physician Directory</h1></div>
   
       <!-- TABLE -->
@@ -37,6 +37,7 @@
               <th>First Name</th>
               <th>Last Name</th>
               <th>Specialty</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -44,7 +45,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td><button type="button">Delete</button></td>
+            <td class="delete"><button type="button">Delete</button></td>
           </tbody>
         </table>
         </div>
@@ -58,15 +59,15 @@
       <p>name, last name, and specialty.</p>
       <form method="POST">
         <fieldset>
-          <label for="firstname">First Name:</label>
+          <label for="firstname">First Name*:</label>
           <input type="text" id="firstname">
         </br>
         </br>
-          <label for="lastname">Last Name:</label>
+          <label for="lastname">Last Name*:</label>
           <input type="text" id="lastname">
         </br>
         </br>
-          <label for="specialty">Specialty:</label>
+          <label for="specialty">Specialty*:</label>
           <input type="text" id="specialty">
           </br>
           </br>
@@ -81,15 +82,15 @@
       <p>last name, and/or specialty.</p>
       <form method="POST">
         <fieldset>
-          <label for="firstname">First Name:</label>
+          <label for="firstname">First Name*:</label>
           <input type="text" id="firstname">
         </br>
         </br>
-          <label for="lastname">Last Name:</label>
+          <label for="lastname">Last Name*:</label>
           <input type="text" id="lastname">
         </br>
         </br>
-          <label for="specialty">Specialty:</label>
+          <label for="specialty">Specialty*:</label>
           <input type="text" id="specialty">
           </br>
           </br>
@@ -104,7 +105,7 @@
       <p>the physician's by.</p>
       <form method="POST">
         <fieldset>
-          <label for="specialty">Specialty:</label>
+          <label for="specialty">Specialty*:</label>
           <input type="text" id="specialty">
         </br>
         </br>
@@ -114,6 +115,11 @@
     </div>
 
   </div>
+
+  <div class="note">
+    <p>-Any item that is marked with a "*" is a required field. If one of these fields are not entered, then the information will not be added/updated.</p>
+  </div>
+
 </div>
 </div>
 

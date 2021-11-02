@@ -25,7 +25,7 @@
       </ul>
     </div>
 
-  <div class="col-s-9">
+  <div class="col-s-10">
     <div style="text-align: center;"><h1>Medication Directory</h1></div>
   
       <!-- TABLE -->
@@ -37,6 +37,7 @@
               <th>Name</th>
               <th>Dosage</th>
               <th>Unit</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -58,15 +59,15 @@
       <p>dosage and unit.</p>
       <form method="POST">
         <fieldset>
-          <label for="name">Name:</label>
+          <label for="name">Name*:</label>
           <input type="text" id="name">
         </br>
         </br>
-          <label for="dosage">Dosage:</label>
-          <input type="text" id="dosage">
+          <label for="dosage">Dosage*:</label>
+          <input type="number" id="dosage">
         </br>
         </br>
-          <label for="unit">Unit:</label>
+          <label for="unit">Unit*:</label>
           <input type="text" id="unit">
           </br>
           </br>
@@ -81,15 +82,15 @@
       <p>dosage and/or unit.</p>
       <form method="POST">
         <fieldset>
-          <label for="name">Name:</label>
+          <label for="name">Name*:</label>
           <input type="text" id="name">
         </br>
         </br>
-          <label for="dosage">Dosage:</label>
-          <input type="text" id="dosage">
+          <label for="dosage">Dosage*:</label>
+          <input type="number" id="dosage">
         </br>
         </br>
-          <label for="unit">Unit:</label>
+          <label for="unit">Unit*:</label>
           <input type="text" id="unit">
           </br>
           </br>
@@ -98,7 +99,32 @@
       </form>
     </div>
 
+    <div class="child">
+      <h1 style="text-align: center;">Search For Medication</h1>
+      <p>Enter a medication's name to</p>
+      <p>search for.</p>
+      <form method="POST">
+        <fieldset>
+          <label for="ID">Name*:</label>
+          <input type="text" id="ID">
+        </br>
+        </br>
+          <input type="submit" value="Submit">
+        </fieldset>
+      </form>
+    </div>
+
   </div>
+
+  <div class="note">
+    <p><h3>-Acceptable notation for Unit is as follows:</h3>
+      <ul><b>mg</b>: Miligram</ul>
+      <ul><b>ml</b>: Mililiter</ul>
+      <ul><b>mm</b>: Milimeter</ul>
+    </p>
+    <p>-Any item that is marked with a "*" is a required field. If one of these fields are not entered, then the information will not be added/updated.</p>
+  </div>
+
 </div>
 </div>
 
