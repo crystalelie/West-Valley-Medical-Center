@@ -57,68 +57,118 @@
               <td><button type="button">Delete</button></td>
             </tbody>
           </table>
+      </div>
+
+      <div class="float">
+        <div class="child">
+          <h1 style="text-align: center;">Add Patient</h1>
+          <p>
+            Add a patient by entering all of their <br> applicable information.
+          </p>
+          <form method="POST">
+            <fieldset>
+              <label for="ssn">SSN*:</label>
+              <input type="text" id="ssn">
+              <br>
+              <br>
+              <label for="dob">Date of Birth*:</label>
+              <input type="text" id="dob">
+              <br>
+              <br>
+              <label for="fname">First Name*:</label>
+              <input type="text" id="fname">
+              <br>
+              <br>
+              <label for="lname">Last Name*:</label>
+              <input type="text" id="lname">
+              <br>
+              <br>
+              <label for="street">Street Address*:</label>
+              <input type="text" id="street">
+              <br>
+              <br>
+              <label for="city">City*:</label>
+              <input type="text" id="city">
+              <br>
+              <br>
+              <label for="zip">Zip Code*:</label>
+              <input type="text" id="zip">
+              <br>
+              <br>
+              <label for="phone">Phone Number*:</label>
+              <input type="text" id="phone">
+              <br>
+              <br>
+              <input type="submit" value="Submit">
+            </fieldset>
+          </form>
+        </div>
+        
+        <div class="child">
+          <h1 style="text-align: center;">Update Patient</h1>
+          <p>Update patient information.</p>
+          <form method="POST">
+            <fieldset>
+              <label for="ssn">SSN*:</label>
+              <input type="text" id="ssn">
+              <br>
+              <br>
+              <label for="dob">Date of Birth*:</label>
+              <input type="text" id="dob">
+              <br>
+              <br>
+              <label for="fname">First Name*:</label>
+              <input type="text" id="fname">
+              <br>
+              <br>
+              <label for="lname">Last Name*:</label>
+              <input type="text" id="lname">
+              <br>
+              <br>
+              <label for="street">Street Address*:</label>
+              <input type="text" id="street">
+              <br>
+              <br>
+              <label for="city">City*:</label>
+              <input type="text" id="city">
+              <br>
+              <br>
+              <label for="zip">Zip Code*:</label>
+              <input type="text" id="zip">
+              <br>
+              <br>
+              <label for="phone">Phone Number*:</label>
+              <input type="text" id="phone">
+              <br>
+              <br>
+              <input type="submit" value="Submit">
+            </fieldset>
+          </form>
         </div>
 
-    <div class="float">
-      <div class="child">
-        <h1 style="text-align: center;">Add Patient</h1>
-        <p>Add a patient by entering all of their</p>
-        <p>applicable information.</p>
-        <form method="POST">
-          <fieldset>
-            <label for="ssn">SSN:</label>
-            <input type="text" id="ssn">
-          </br>
-          </br>
-            <label for="dob">Date of Birth:</label>
-            <input type="text" id="dob">
-          </br>
-          </br>
-            <label for="fname">First Name:</label>
-            <input type="text" id="fname">
-          </br>
-          </br>
-            <label for="lname">Last Name:</label>
-            <input type="text" id="lname">
-          </br>
-          </br>
-            <label for="street">Street Address:</label>
-            <input type="text" id="street">
-          </br>
-          </br>
-            <label for="city">City:</label>
-            <input type="text" id="city">
-          </br>
-          </br>
-            <label for="zip">Zip Code:</label>
-            <input type="text" id="zip">
-          </br>
-          </br>
-            <label for="phone">Phone Number:</label>
-            <input type="text" id="phone">
-          </br>
-          </br>
-            <input type="submit" value="Submit">
-          </fieldset>
-        </form>
+        <div class="child">
+          <h1 style="text-align: center;">Patient Search</h1>
+          <p>
+            Search by entering a patient's first name <br> and/or last name.
+          </p>
+          <form method="GET">
+            <fieldset>
+              <label for="name">Patient name*:</label>
+              <input type="text" id="name">
+              <br>
+              <br>
+              <input type="submit" value="Submit">
+            </fieldset>
+          </form>
+        </div>
+
       </div>
 
-      <div class="child">
-        <h1 style="text-align: center;">Patient Search</h1>
-        <p>Search by entering a patient's first name</p>
-        <p> and/or last name.</p>
-        <form method="POST">
-          <fieldset>
-            <label for="name">Patient name:</label>
-            <input type="text" id="name">
-          </br>
-          </br>
-            <input type="submit" value="Submit">
-          </fieldset>
-        </form>
+      <div class="note">
+        <p>Note: Fields marked with a "*" are required.</p>
       </div>
-      
-      </div>
+
+    </div>
   </div>
 
 

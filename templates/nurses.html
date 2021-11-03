@@ -7,73 +7,122 @@
 </head>
 <body>
 
-<div class="header">
-  <h1>West Valley Medical Center Database</h1>
-</div>
+  <div class="header">
+    <h1>West Valley Medical Center Database</h1>
+  </div>
 
-<div class="row">
-    <div class="col-s-2 menu" style='text-align: center;'>
-      <ul>
-      <a href="{{ url_for('home')}}"><li> Home</li></a>
-      <a href="{{ url_for('medications')}}"><li>Medications</li></a>
-      <a href="{{ url_for('nurses')}}"><li>Nurses</li></a>
-      <a href="{{ url_for('patients')}}"><li>Patients</li></a>
-      <a href="{{ url_for('patientdetails')}}" ><li>Patient Details</li></a>
-      <a href="{{ url_for('physicians')}}"><li>Physicians</li></a>
-      <a href="{{ url_for('treatments')}}"><li>Treatments</li></a>
-  
-      </ul>
+  <div class="row">
+      <div class="col-s-2 menu" style='text-align: center;'>
+        <ul>
+        <a href="{{ url_for('home')}}"><li> Home</li></a>
+        <a href="{{ url_for('medications')}}"><li>Medications</li></a>
+        <a href="{{ url_for('nurses')}}"><li>Nurses</li></a>
+        <a href="{{ url_for('patients')}}"><li>Patients</li></a>
+        <a href="{{ url_for('patientdetails')}}" ><li>Patient Details</li></a>
+        <a href="{{ url_for('physicians')}}"><li>Physicians</li></a>
+        <a href="{{ url_for('treatments')}}"><li>Treatments</li></a>
+    
+        </ul>
+      </div>
+
+  <div class="col-s-9">
+    <div style="text-align: center;"><h1>Nurse Directory</h1></div>
+    <div class="table" style="margin-left: auto; margin-right: auto;">
+      <table>
+        <thead>
+          <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Registered</th>
+          </tr>
+        </thead>
+        <tbody>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td><button type="button">Delete</button></td>
+        </tbody>
+      </table>
     </div>
 
-<div class="col-s-9">
-  <div style="text-align: center;"><h1>Nurse Directory</h1></div>
-  <div class="table" style="margin-left: auto; margin-right: auto;">
-  <table>
-    <thead>
-      <tr>
-      <th>ID</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Registered</th>
-      </tr>
-    </thead>
-    <tbody>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tbody>
-  </table>
-</div>
+    <div class="float">
+      <div class="child">
+        <div style="text-align:center;"><h1>Add a Nurse</h1></div>
+        <p>
+          Add a new nurse by entering their first name, <br> last name, and if they are registered.
+        </p>
+        <form method="POST">
+          <fieldset>
+            <label for="fname">First Name*: </label>
+            <input type="text" id="fname">
+            <br>
+            <br>
+            <label for="lname">Last Name*:</label>
+            <input type="text" id="lname">
+            <br>
+            <br>
+            <label for="registered">Registered*:</label>
+            <select id="registered" name="registered">
+              <option value="True">Yes</option>
+              <option value="False">No</option>
+            </select>
+            <br>
+            <br>
+            <input type="submit" value="Submit">
+          </fieldset>
+        </form>
+      </div>
 
-<div class="float">
-  <div class="child">
-    <div style="text-align:center;"><h1>Add a Nurse</h1></div>
-    <p>Add a new nurse by entering their first name,</p>
-    <p>last name, and if they are registered.</p>
-  <form method="POST">
-    <fieldset>
-      <label for="fname">First Name: </label>
-      <input type="text" id="fname">
-    </br>
-    </br>
-      <label for="lname">Last Name:</label>
-      <input type="text" id="lname">
-    </br>
-    </br>
-      <label for="registered">Registered:</label>
-      <select id="registered" name="registered">
-        <option value="True">Yes</option>
-        <option value="False">No</option>
-      </select>
-    </br>
-    </br>
-      <input type="submit" value="Submit">
-    </fieldset>
-  </form>
-</div>
-</div>
-</div>
+      <div class="child">
+        <h1>Update Nurse</h1>
+        <p>
+          Update a nurse's name <br> or registered status.
+        </p>
+        <form method="POST">
+          <fieldset>
+            <label for="fname">First Name*: </label>
+            <input type="text" id="fname">
+            <br>
+            <br>
+            <label for="lname">Last Name*:</label>
+            <input type="text" id="lname">
+            <br>
+            <br>
+            <label for="registered">Registered*:</label>
+            <select id="registered" name="registered">
+              <option value="True">Yes</option>
+              <option value="False">No</option>
+            </select>
+            <br>
+            <br>
+            <input type="submit" value="Submit">
+          </fieldset>
+        </form>
+      </div>
+
+      <div class="child">
+        <h1>Search Nurses</h1>
+        <p>Search by first and/or last name.</p>
+        <form method="POST">
+          <fieldset>
+            <label for="name">Name*:</label>
+            <input type="text" id="name">
+            <br>
+            <br>
+            <input type="submit" value="Submit">
+          </fieldset>
+        </form>
+      </div>
+  </div>
+
+  <div class="note">
+    <p>Note: Fields marked with a "*" are required.</p>
+  </div>
+
+
+  </div>
 
 
 

@@ -12,8 +12,8 @@
   </div>
 
   <div class="row">
-      <div class="col-s-2 menu" style='text-align: center;'>
-        <ul>
+    <div class="col-s-2 menu" style='text-align: center;'>
+      <ul>
         <a href="{{ url_for('home')}}"><li> Home</li></a>
         <a href="{{ url_for('medications')}}"><li>Medications</li></a>
         <a href="{{ url_for('nurses')}}"><li>Nurses</li></a>
@@ -21,75 +21,95 @@
         <a href="{{ url_for('patientdetails')}}" ><li>Patient Details</li></a>
         <a href="{{ url_for('physicians')}}"><li>Physicians</li></a>
         <a href="{{ url_for('treatments')}}"><li>Treatments</li></a>
-    
-        </ul>
-      </div>
+      </ul>
+    </div>
 
     <div class="col-s-9">
-        <div style="text-align: center;"><h1>Patient Details</h1></div>
-  <div class="table" style="margin-left: auto; margin-right: auto;">
-    <table>
-      <thead>
-        <th>Patient ID</th>
-        <th>Physician ID</th>
-        <th>Nurse ID</th>
-      </thead>
-      <tbody>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tbody>
-    </table>
-  </div>
+      <div style="text-align: center;"><h1>Patient Details</h1></div>
+  
+      <div class="table" style="margin-left: auto; margin-right: auto;">
+        <table>
+          <thead>
+            <th>Patient ID</th>
+            <th>Physician ID</th>
+            <th>Nurse ID</th>
+          </thead>
+          <tbody>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tbody>
+        </table>
+      </div>
 
-<div class="float">
-  <div class="child">
-    <h1 style="text-align: center;">Add Patient Details</h1>
-    <p>Add new patient details by entering the patient's</p>
-    <p>ID, the Physician's ID and the Nurse's ID.</p>
-    <form>
-      <fieldset>
-        <label for="patient">Patient ID:</label>
-        <input type="text" id="patient">
-      </br>
-      </br>
-        <label for="physician">Physician ID:</label>
-        <input type="text" id="physician">
-      </br>
-      </br>
-        <label for="nurse">Nurse ID:</label>
-        <input type="text" id="nurse">
-      </br>
-      </br>
-        <input type="submit" value="Submit">
-      </fieldset>
-    </form>
-  </div>
+      <div class="float">
+        <div class="child">
+          <h1 style="text-align: center;">Add Patient Details</h1>
+          <p>Add new patient details by entering the patient's</p>
+          <p>ID, the Physician's ID and the Nurse's ID.</p>
+          <form method="POST">
+            <fieldset>
+              <label for="patient">Patient ID*:</label>
+              <input type="text" id="patient">
+              <br>
+              <br>
+              <label for="physician">Physician ID*:</label>
+              <input type="text" id="physician">
+              <br>
+              <br>
+              <label for="nurse">Nurse ID*:</label>
+              <input type="text" id="nurse">
+              <br>
+              <br>
+              <input type="submit" value="Submit">
+            </fieldset>
+          </form>
+        </div>
 
-  <div class="child">
-    <h1 style="text-align: center;">Update Patient Details</h1>
-    <p>Update a patient's detail by changing or</p>
-    <p>removing the physician or nurse.</p>
-    <form>
-      <fieldset>
-        <label for="patient">Patient ID:</label>
-        <input type="text" id="patient">
-      </br>
-      </br>
-        <label for="physician">Physician ID:</label>
-        <input type="text" id="physician">
-      </br>
-      </br>
-        <label for="nurse">Nurse ID:</label>
-        <input type="text" id="nurse">
-      </br>
-      </br>
-        <input type="submit" value="Submit">
-      </fieldset>
-    </form>
-  </div>
+        <div class="child">
+          <h1 style="text-align: center;">Update Patient Details</h1>
+          <p>Update a patient's detail by changing or</p>
+          <p>removing the physician or nurse.</p>
+          <form method="POST">
+            <fieldset>
+              <label for="patient">Patient ID*:</label>
+              <input type="text" id="patient">
+              <br>
+              <br>
+              <label for="physician">Physician ID*:</label>
+              <input type="text" id="physician">
+              <br>
+              <br>
+              <label for="nurse">Nurse ID*:</label>
+              <input type="text" id="nurse">
+              <br>
+              <br>
+              <input type="submit" value="Submit">
+            </fieldset>
+          </form>
+        </div>
 
-</div>
+        <div class="child">
+          <h1>Search Patient Details</h1>
+          <p>Search by patient ID.</p>
+          <form method="GET">
+            <fieldset>
+              <label for="patient">Patient ID*:</label>
+              <input type="text" id="patient">
+              <br>
+              <br>
+              <input type="submit" value="Submit">
+            </fieldset>
+          </form>
+        </div>
+        
+      </div>
+
+      <div class="note">
+        <p>Note: Fields marked with a "*" are required.</p>
+      </div>
+      
+  </div>
 </div>
 
 
