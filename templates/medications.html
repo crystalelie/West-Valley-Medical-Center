@@ -25,7 +25,7 @@
       </ul>
     </div>
 
-  <div class="col-s-10">
+  <div class="col-s-9">
     <div style="text-align: center;"><h1>Medication Directory</h1></div>
   
       <!-- TABLE -->
@@ -33,20 +33,36 @@
         <table>
           <thead>
             <tr>
-              <th>ID</th>
               <th>Name</th>
               <th>Dosage</th>
               <th>Unit</th>
               <th></th>
+
             </tr>
           </thead>
+          {% for i in meds %}
           <tbody>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><button type="button">Delete</button></td>
+            <td>{{i.medicationName}}</td>
+            <td>{{i.dosage}}</td>
+            <td>{{i.dosageUnit}}</td>
+            <td>
+              <form style="display:inline-block;" method="POST" id="Delete" name="Delete">
+              <input type="hidden"  name="id" value={{i.medicationID}}>
+              <button type="submit" name="Delete" value="Delete">Delete</button>
+              </form>
+              
+
+              <form style="display:inline-block;" method="POST" id="Update" name="Update">
+              <input type="hidden"  name="id" value={{i.medicationID}}>
+              <input type="hidden"  name="name" value={{i.medicationName}}>
+              <input type="hidden"  name="dosage" value={{i.dosage}}>
+              <input type="hidden"  name="unit" value={{i.dosageUnit}}>
+              <button type="submit" name="Update" value="Update">Update</button>
+              </form> 
+            </td>
+            {%endfor%}
           </tbody>
+        
         </table>
         </div>
 
@@ -57,51 +73,26 @@
       <h1>Add a New Medication</h1>
       <p>Add a new medication by entering the name,</p>
       <p>dosage and unit.</p>
-      <form method="POST">
+      <form  id="Add" method="POST">
         <fieldset>
           <label for="name">Name*:</label>
-          <input type="text" id="name">
+          <input type="text" id="name" name="name">
         </br>
         </br>
           <label for="dosage">Dosage*:</label>
-          <input type="number" id="dosage">
+          <input type="number" id="dosage" name="dosage">
         </br>
         </br>
           <label for="unit">Unit*:</label>
           <select id="unit" name="unit">
-            <option value="gram">g</option>
-            <option value="miligram">mg</option>
-            <option value="mililiter">ml</option>
+            <option value=""></option>
+            <option value="g">g</option>
+            <option value="mg">mg</option>
+            <option value="ml">ml</option>
           </br>
           </br>
-          <input type="submit" value="Submit">
-        </fieldset>
-      </form>
-    </div>
-
-    <div class="child">
-      <h1>Update a Medication</h1>
-      <p>Update a medication's name,</p>
-      <p>dosage and/or unit.</p>
-      <form method="POST">
-        <fieldset>
-          <label for="name">Name*:</label>
-          <input type="text" id="name">
         </br>
-        </br>
-          <label for="dosage">Dosage*:</label>
-          <input type="number" id="dosage">
-        </br>
-        </br>
-          <label for="unit">Unit*:</label>
-          <select id="unit" name="unit">
-            <option value="gram">g</option>
-            <option value="miligram">mg</option>
-            <option value="mililiter">ml</option>
-          </select>
-          </br>
-          </br>
-          <input type="submit" value="Submit">
+          <input style="margin-top: 15px;" type="submit" name="Add" value="Submit">
         </fieldset>
       </form>
     </div>
@@ -110,7 +101,7 @@
       <h1 style="text-align: center;">Search For Medication</h1>
       <p>Enter a medication's name to</p>
       <p>search for.</p>
-      <form method="POST">
+      <form action= "{{ url_for('medications') }}" id="Search" method="POST">
         <fieldset>
           <label for="ID">Name*:</label>
           <input type="text" id="ID">

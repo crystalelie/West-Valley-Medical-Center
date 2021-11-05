@@ -25,7 +25,7 @@
       </ul>
     </div>
 
-  <div class="col-s-10">
+  <div class="col-s-9">
     <div style="text-align: center;"><h1>Physician Directory</h1></div>
   
       <!-- TABLE -->
@@ -33,19 +33,32 @@
         <table>
           <thead>
             <tr>
-              <th>ID</th>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Specialty</th>
               <th></th>
             </tr>
           </thead>
+          {% for i in phys %}
           <tbody>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="delete"><button type="button">Delete</button></td>
+            <td>{{i.firstName}}</td>
+            <td>{{i.lastName}}</td>
+            <td>{{i.specialty}}</td>
+            <td>
+              <form style="display:inline-block;" method="POST" id="Delete" name="Delete">
+              <input type="hidden"  name="id" value={{i.physicianID}}>
+              <button type="submit" name="Delete" value="Delete">Delete</button>
+              </form> 
+
+              <form style="display:inline-block;" method="POST" id="Update" name="Update">
+              <input type="hidden"  name="id" value={{i.physicianID}}>
+              <input type="hidden"  name="fname" value={{i.firstName}}>
+              <input type="hidden"  name="lname" value={{i.lastName}}>
+              <input type="hidden"  name="specialty" value={{i.specialty}}>
+              <button type="submit" name="Update" value="Update">Update</button>
+              </form> 
+            </td>
+            {%endfor%}
           </tbody>
         </table>
         </div>
@@ -57,44 +70,21 @@
       <h1>Add A New Physician</h1>
       <p>Add a new physician by inputting their first</p>
       <p>name, last name, and specialty.</p>
-      <form method="POST">
+      <form id="Add" method="POST">
         <fieldset>
-          <label for="firstname">First Name*:</label>
-          <input type="text" id="firstname">
+          <label for="fname">First Name*:</label>
+          <input type="text" id="fname" name="fname">
         </br>
         </br>
-          <label for="lastname">Last Name*:</label>
-          <input type="text" id="lastname">
+          <label for="lname">Last Name*:</label>
+          <input type="text" id="lname" name="lname">
         </br>
         </br>
           <label for="specialty">Specialty*:</label>
-          <input type="text" id="specialty">
+          <input type="text" id="specialty" name="specialty">
           </br>
           </br>
-          <input type="submit" value="Submit">
-        </fieldset>
-      </form>
-    </div>
-
-    <div class="child">
-      <h1>Update a Physician</h1>
-      <p>Update a physician's first name,</p>
-      <p>last name, and/or specialty.</p>
-      <form method="POST">
-        <fieldset>
-          <label for="firstname">First Name*:</label>
-          <input type="text" id="firstname">
-        </br>
-        </br>
-          <label for="lastname">Last Name*:</label>
-          <input type="text" id="lastname">
-        </br>
-        </br>
-          <label for="specialty">Specialty*:</label>
-          <input type="text" id="specialty">
-          </br>
-          </br>
-          <input type="submit" value="Submit">
+          <input type="submit" name="Add" value="Submit">
         </fieldset>
       </form>
     </div>
