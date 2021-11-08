@@ -25,7 +25,7 @@
       </ul>
     </div>
 
-  <div class="col-s-10">
+  <div class="col-s-9">
     <div style="text-align: center;"><h1>Treatment Directory</h1></div>
   
       <!-- TABLE -->
@@ -33,17 +33,33 @@
         <table>
           <thead>
             <tr>
-              <th>Patient ID</th>
-              <th>Medication ID</th>
+              <th>Patient</th>
+              <th>Medication</th>
               <th>Frequency</th>
               <th></th>
             </tr>
           </thead>
+          {% for i in treats %}
           <tbody>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><button type="button">Delete</button></td>
+            <td>{{i.name}}</td>
+            <td>{{i.medicationName}}</td>
+            <td>{{i.frequency}}</td>
+            <td>
+              <form style="display:inline-block;" method="POST" id="Delete" name="Delete">
+              <input type="hidden"  name="id" value={{i.treatmentID}}>
+              <button type="submit" name="Delete" value="Delete">Delete</button>
+              </form> 
+
+              <form style="display:inline-block;" method="POST" id="Update" name="Update">
+              <input type="hidden"  name="id" value={{i.treatmentID}}>
+              <input type="hidden"  name="name" value={{i.name}}>
+              <input type="hidden"  name="medname" value={{i.medicationName}}>
+              <input type="hidden"  name="frequency" value={{i.frequency}}>
+              <button type="submit" name="Update" value="Update">Update</button>
+              </form> 
+            </td>
+            {%endfor%}
+
           </tbody>
         </table>
         </div>
@@ -57,34 +73,11 @@
       <p>ID, medication ID, and frequency.</p>
       <form method="POST">
         <fieldset>
-          <label for="ID">Patient ID*:</label>
+          <label for="ID">Patient*:</label>
           <input type="number" id="ID">
         </br>
         </br>
-          <label for="medication">Medication ID*:</label>
-          <input type="number" id="medication">
-        </br>
-        </br>
-          <label for="frequency">Frequency*:</label>
-          <input type="text" id="frequency">
-          </br>
-          </br>
-          <input type="submit" value="Submit">
-        </fieldset>
-      </form>
-    </div>
-
-    <div class="child">
-      <h1>Update a Treatment</h1>
-      <p>Update a patient's ID, medication ID and/or</p>
-      <p>frequency.</p>
-      <form method="POST">
-        <fieldset>
-          <label for="ID">Patient ID*:</label>
-          <input type="number" id="ID">
-        </br>
-        </br>
-          <label for="medication">Medication ID*:</label>
+          <label for="medication">Medication*:</label>
           <input type="number" id="medication">
         </br>
         </br>
@@ -103,7 +96,7 @@
       <p>the treatments by.</p>
       <form method="POST">
         <fieldset>
-          <label for="ID">Patient ID*:</label>
+          <label for="ID">Patient*:</label>
           <input type="number" id="ID">
         </br>
         </br>
@@ -120,7 +113,7 @@
       <ul><b>QID</b>: 4 times daily</ul>
       <ul><b>q_H</b>: _ units per _ hours (i.e. 4q3H: 4 units every 3 hours) </ul>
     </p>
-    <p>-Any item that is marked with a "*" is a required field. If one of these fields are not entered, then the information will not be added/updated.</p>
+    <p>Note: Fields marked with a "*" are required.</p>
   </div>
 
 </div>
