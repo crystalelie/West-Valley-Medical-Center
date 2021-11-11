@@ -1,6 +1,7 @@
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_mysqldb import MySQL
+import requests
 
 app = Flask(__name__)
 
@@ -12,18 +13,17 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
 
-# Running queries to be used within each route
-cur = mysql.connection.cursor()
-cur.execute("SELECT * FROM Patients")
-pat = cur.fetchall()
 
 @app.route('/')
 def home():
     return render_template('home.html')
 
-@app.route('/medications')
+@app.route('/medications', methods=['GET', 'POST'])
 def medications():
-    return render_template('medications.html')
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Medications")
+    meds = cur.fetchall()
+    return render_template('medications.html', meds=meds)
 
 @app.route('/nurses')
 def nurses():
@@ -37,15 +37,27 @@ def patients():
 def patientdetails():
     return render_template('patientdetails.html')
 
-@app.route('/physicians')
+@app.route('/physicians', methods=['GET', 'POST'])
 def physicians():
-    return render_template('physicians.html')
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Physicians")
+    phys = cur.fetchall()
+    return render_template('physicians.html', phys=phys)
 
-@app.route('/treatments')
+
+@app.route('/treatments', methods=['GET', 'POST'])
 def treatments():
-    return render_template('treatments.html')
+    cur = mysql.connection.cursor()
+    cur.execute("Select t.treatmentID, concat(p.firstName, ' ', p.lastName) as name, m.medicationName, frequency FROM Treatments t LEFT JOIN Patients p on t.patientID = p.patientID LEFT JOIN Medications m on t.medicationID = m.medicationID")
+    treats = cur.fetchall()
 
+    # Creating a dictionary of distinct patient names
+    cur.execute("Select DISTINCT concat(p.firstName, ' ', p.lastName) as name FROM Treatments t LEFT JOIN Patients p on t.patientID = p.patientID LEFT JOIN Medications m on t.medicationID = m.medicationID")
+    names = cur.fetchall()
 
-#if __name__ == "__main__":
-#    app.run('127.0.0.1', port=5004, debug=True)
+    # Creating a dictionary of distinct medication names
+    cur.execute("Select DISTINCT m.medicationName FROM Treatments t LEFT JOIN Patients p on t.patientID = p.patientID LEFT JOIN Medications m on t.medicationID = m.medicationID")
+    medications = cur.fetchall()
+
+    return render_template('treatments.html', treats=treats, names=names, meds=medications)
 
