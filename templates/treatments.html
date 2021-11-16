@@ -6,7 +6,7 @@
 
 </head>
 <body>
-
+  
 <div class="header">
   <h1>West Valley Medical Center Database</h1>
 </div>
@@ -44,23 +44,23 @@
             <td>{{i.name}}</td>
             <td>{{i.medicationName}}</td>
             <td>{{i.frequency}}</td>
-            <td>
+            <td>              
               <form style="display:inline-block;" method="POST" id="Delete" name="Delete">
               <input type="hidden"  name="id" value={{i.treatmentID}}>
               <button type="submit" name="Delete" value="Delete">Delete</button>
               </form> 
-
+              
               <form style="display:inline-block;" method="POST" id="Update" name="Update">
               <input type="hidden"  name="id" value={{i.treatmentID}}>
-              <input type="hidden"  name="name" value={{i.name}}>
-              <input type="hidden"  name="medname" value={{i.medicationName}}>
+              <input type="hidden"  name="fname" value={{i.firstName}}>
+              <input type="hidden"  name="lname" value={{i.lastName}}>
+              <input type="hidden"  name="medication" value={{i.medicationName}}>
               <input type="hidden"  name="frequency" value={{i.frequency}}>
               <button type="submit" name="Update" value="Update">Update</button>
-              </form> 
-            </td>
+              </form> </td>
             {%endfor%}
-
           </tbody>
+
         </table>
         </div>
 
@@ -69,39 +69,87 @@
   <div class="float">
     <div class="child">
       <h1>Add A New Treatment</h1>
-      <p>Add a new treatment by entering the patient's</p>
-      <p>ID, medication ID, and frequency.</p>
-      <form method="POST">
+      <p>Add a new treatment by selecting the patient's</p>
+      <p>name, medication, and frequency.</p>
+      <form name="Add" method="POST">
         <fieldset>
-          <label for="ID">Patient*:</label>
-          <input type="number" id="ID">
+          <label for="name">Patient*:</label>
+          <select id="name" name="name" required>
+            <option></option>
+            {% for i in names %}
+            <option value={{i.patientID}}>{{i.name}}</option>
+            {%endfor%}
+          </select>
         </br>
         </br>
           <label for="medication">Medication*:</label>
-          <input type="number" id="medication">
+          <select id="medication" name="medication" required>
+            <option></option>
+            {% for i in meds %}
+            <option value={{i.medicationID}}>{{i.medicationName}}</option>
+            {%endfor%}
+          </select>
         </br>
         </br>
           <label for="frequency">Frequency*:</label>
-          <input type="text" id="frequency">
+          <input type="text" name="frequency" id="frequency" required="required" maxlength="4">
           </br>
           </br>
-          <input type="submit" value="Submit">
+          <input name="Add" type="submit" value="Submit">
         </fieldset>
       </form>
     </div>
 
     <div class="child">
-      <h1 style="text-align: center;">Filter By Patient</h1>
-      <p>Enter a patient's ID to filter</p>
-      <p>the treatments by.</p>
+      <h1 style="text-align: center;">Filter The Treatments</h1>
+      <p>Choose to filter the data by Patient Name,</p>
+      <p>Medication or Frequency</p>
       <form method="POST">
-        <fieldset>
-          <label for="ID">Patient*:</label>
-          <input type="number" id="ID">
-        </br>
-        </br>
-          <input type="submit" value="Submit">
-        </fieldset>
+      <fieldset>
+        <label for="filter1">Filter By*:</label>
+        <select id="filter1" name="filter1" required>
+          <option value=""></option>
+          <option value="Pat">Patient</option>
+          <option value="Med">Medication</option>
+          <option value="Freq">Frequency</option>
+        </select>
+      </br>
+      </br>
+
+        <div id="hiddenPat"  style="display:none">
+          <label for="result">Patient*:</label>
+        <select id="result" name="result" required>
+          <option></option>
+          {% for i in names %}
+          <option value={{i.patientID}}>{{i.name}}</option>
+          {%endfor%}
+        </select>
+        </div>
+        
+        <div id="hiddenMed"  style="display:none">
+          <label for="result1">Medication*:</label>
+          <select id="result1" name="result1" required>
+            <option></option>
+            {% for i in meds %}
+            <option value={{i.medicationID}}>{{i.medicationName}}</option>
+            {%endfor%}
+          </select>
+        </div>
+
+        <div id="hiddenFreq"  style="display:none">
+          <label for="result2">Frequency*:</label>
+            <select id="result2" name="result2" required>
+              <option></option>
+              {% for i in freq %}
+              <option value={{i.frequency}}>{{i.frequency}}</option>
+              {%endfor%}
+            </select>
+        </div>
+            
+      </br>
+      </br>
+        <input name="Filter" type="submit" value="Submit">
+      </fieldset>
       </form>
     </div>
   </div>
@@ -111,7 +159,7 @@
       <ul><b>QD</b>: Once daily</ul>
       <ul><b>TID</b>: Three times daily</ul>
       <ul><b>QID</b>: 4 times daily</ul>
-      <ul><b>q_H</b>: _ units per _ hours (i.e. 4q3H: 4 units every 3 hours) </ul>
+      <ul><b>_q_H</b>: _ units per _ hours (i.e. 4q3H: 4 units every 3 hours) </ul>
     </p>
     <p>Note: Fields marked with a "*" are required.</p>
   </div>
@@ -119,6 +167,27 @@
 </div>
 </div>
 
+<script>
+var select = document.getElementById('filter1'),
+onChange = function(event) {
+  var shown = this.options[this.selectedIndex].value == "Pat";
+    document.getElementById('hiddenPat').style.display = shown ? 'block' : 'none';
+  
+    var shown = this.options[this.selectedIndex].value == "Med";
+    document.getElementById('hiddenMed').style.display = shown ? 'block' : 'none';
+
+    var shown = this.options[this.selectedIndex].value == "Freq";
+    document.getElementById('hiddenFreq').style.display = shown ? 'block' : 'none';
+};
+
+if (select.addEventListener) {
+    select.addEventListener('change', onChange, false);
+} else {
+  select.attachEvent('onchange', function() {
+    onChange.apply(select, arguments);
+  });
+}
+</script>
 
 
 

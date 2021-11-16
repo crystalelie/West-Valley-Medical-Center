@@ -73,19 +73,19 @@
       <h1>Add a New Medication</h1>
       <p>Add a new medication by entering the name,</p>
       <p>dosage and unit.</p>
-      <form  id="Add" method="POST">
+      <form  name="Add" method="POST">
         <fieldset>
           <label for="name">Name*:</label>
-          <input type="text" id="name" name="name">
+          <input type="text" id="name" name="name" pattern="[A-Za-z]+"  required='required' title='Letters Only'>
         </br>
         </br>
           <label for="dosage">Dosage*:</label>
-          <input type="number" id="dosage" name="dosage">
+          <input type="number" id="dosage" name="dosage" pattern="[0-9]+"  required='required' title='Numbers Only'>
         </br>
         </br>
           <label for="unit">Unit*:</label>
-          <select id="unit" name="unit">
-            <option value=""></option>
+          <select id="unit" name="unit" required>
+            <option></option>
             <option value="g">g</option>
             <option value="mg">mg</option>
             <option value="ml">ml</option>
@@ -99,17 +99,29 @@
 
     <div class="child">
       <h1 style="text-align: center;">Search For Medication</h1>
-      <p>Enter a medication's name to</p>
-      <p>search for.</p>
-      <form action= "{{ url_for('medications') }}" id="Search" method="POST">
+      <p>Select piece of information you would</p>
+      <p>like to search for.</p>
+      <form method="POST">
         <fieldset>
-          <label for="ID">Name*:</label>
-          <input type="text" id="ID">
+          <label for="filter1">Search By*:</label>
+          <select id="filter1" name="filter1" required>
+            <option value=""></option>
+            <option value="Name">Name</option>
+            <option value="Dosage">Dosage</option>
+            <option value="Unit">Unit</option>
+          </select>
         </br>
         </br>
-          <input type="submit" value="Submit">
+  
+          <div>
+            <label for="result">Search For*:</label>
+            <input type="text" id="result" name="result" required='required' title='Letters Only For Name and Unit. Numbers Only For Dosage.'>
+          </div>
+        </br>
+        </br>
+          <input name="Filter" type="submit" value="Submit">
         </fieldset>
-      </form>
+        </form>
     </div>
 
   </div>

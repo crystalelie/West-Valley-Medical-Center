@@ -6,7 +6,6 @@
 
 </head>
 <body>
-
 <div class="header">
   <h1>West Valley Medical Center Database</h1>
 </div>
@@ -70,18 +69,18 @@
       <h1>Add A New Physician</h1>
       <p>Add a new physician by inputting their first</p>
       <p>name, last name, and specialty.</p>
-      <form id="Add" method="POST">
+      <form id="Add" name="Add" method="POST">
         <fieldset>
           <label for="fname">First Name*:</label>
-          <input type="text" id="fname" name="fname">
+          <input type="text" id="fname" name="fname" pattern="[A-Za-z]+" required='required' title='Letters Only'>
         </br>
         </br>
           <label for="lname">Last Name*:</label>
-          <input type="text" id="lname" name="lname">
+          <input type="text" id="lname" name="lname" pattern="[A-Za-z]+"  required='required' title='Letters Only'>
         </br>
         </br>
           <label for="specialty">Specialty*:</label>
-          <input type="text" id="specialty" name="specialty">
+          <input type="text" id="specialty" name="specialty" pattern="[A-Za-z]+"  required='required' title='Letters Only'>
           </br>
           </br>
           <input type="submit" name="Add" value="Submit">
@@ -90,18 +89,56 @@
     </div>
 
     <div class="child">
-      <h1>Filter By Specialty</h1>
-      <p>Enter a specialty to filter</p>
-      <p>the physician's by.</p>
-      <form method="POST">
+      <h1>Filter the Physicians</h1>
+      <p>Choose to filter the data by</p>
+      <p>physician first name, last name or specialty.</p>
+      <form method="POST" name="Filter">
         <fieldset>
-          <label for="specialty">Specialty*:</label>
-          <input type="text" id="specialty">
+          <label for="filter1">Filter By*:</label>
+          <select id="filter1" name="filter1">
+            <option value=""></option>
+            <option value="fname">First Name</option>
+            <option value="lname">Last Name</option>
+            <option value="spec">Specialty</option>
+          </select>
         </br>
         </br>
-          <input type="submit" value="Submit">
+  
+          <div id="hiddenFName"  style="display:none">
+            <label for="result">First Name*:</label>
+          <select id="result" name="result">
+            <option></option>
+            {% for i in fname %}
+            <option value={{i.firstName}}>{{i.firstName}}</option>
+            {%endfor%}
+          </select>
+          </div>
+          
+          <div id="hiddenLName"  style="display:none">
+            <label for="result1">Last Name*:</label>
+            <select id="result1" name="result1">
+              <option></option>
+              {% for i in lname %}
+              <option value={{i.lastName}}>{{i.lastName}}</option>
+              {%endfor%}
+            </select>
+          </div>
+  
+          <div id="hiddenSpec"  style="display:none">
+            <label for="result2">Specialty*:</label>
+              <select id="result2" name="result2">
+                <option></option>
+                {% for i in spec %}
+                <option value={{i.specialty}}>{{i.specialty}}</option>
+                {%endfor%}
+              </select>
+          </div>
+              
+        </br>
+        </br>
+          <input name="Filter" type="submit" value="Submit">
         </fieldset>
-      </form>
+        </form>
     </div>
 
   </div>
@@ -113,6 +150,27 @@
 </div>
 </div>
 
+<script>
+  var select = document.getElementById('filter1'),
+  onChange = function(event) {
+    var shown = this.options[this.selectedIndex].value == "fname";
+      document.getElementById('hiddenFName').style.display = shown ? 'block' : 'none';
+    
+      var shown = this.options[this.selectedIndex].value == "lname";
+      document.getElementById('hiddenLName').style.display = shown ? 'block' : 'none';
+  
+      var shown = this.options[this.selectedIndex].value == "spec";
+      document.getElementById('hiddenSpec').style.display = shown ? 'block' : 'none';
+  };
+  
+  if (select.addEventListener) {
+      select.addEventListener('change', onChange, false);
+  } else {
+    select.attachEvent('onchange', function() {
+      onChange.apply(select, arguments);
+    });
+  }
+  </script>
 
 
 
