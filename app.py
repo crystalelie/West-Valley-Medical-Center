@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request
 from flask_mysqldb import MySQL
 import requests
@@ -38,12 +37,12 @@ def medications():
 
         # Search for an item
         if request.form.get('Filter'):
-            if request.form['filter1'] == "Name":
-                name = request.form['result']
+            if request.form['filter1'] == "Med":
+                med = request.form['result']
                 cur.execute("SELECT * FROM Medications WHERE medicationName = %s", [name])
                 meds = cur.fetchall()
 
-            elif request.form['filter1'] == "Dosage":
+            elif request.form['filter1'] == "Dos":
                 dosage = request.form['result']
                 cur.execute("SELECT * FROM Medications WHERE dosage = %s", [dosage])
                 meds = cur.fetchall()
@@ -60,7 +59,7 @@ def medications():
             Unit = request.form['unit']
             headers = ["Name", "Dosage", "Unit"]
             info = [Name, Dosage, Unit]
-            return render_template('update.html', name="Medication Update", headers=headers, info=info, id=id, length=len(info))
+            return render_template('medupdate.html', name="Medication Update", headers=headers, info=info, id=id, length=len(info))
 
         elif request.form.get('New'):
             id = request.form['id']
@@ -73,7 +72,10 @@ def medications():
         cur.execute("SELECT * FROM Medications")
         meds = cur.fetchall()
     
-    return render_template('medications.html', meds=meds)
+        cur.execute("SELECT DISTINCT dosage FROM Medications")
+        dos = cur.fetchall()
+
+    return render_template('medications.html', meds=meds, dos=dos)
 
 def add_medication(name, dosage, unit):
     cur = mysql.connection.cursor()
@@ -118,7 +120,7 @@ def physicians():
             spec = request.form['specialty']
             headers = ["First Name", "Last Name", "Specialty"]
             info = [fname, lname, spec]
-            return render_template('update.html', name="Physician Update", headers=headers, info=info, id=id, length=len(info))
+            return render_template('physicianupdate.html', name="Physician Update", headers=headers, info=info, id=id, length=len(info))
 
         elif request.form.get('New'):
             id = request.form['id']
