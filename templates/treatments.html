@@ -54,7 +54,9 @@
               <input type="hidden"  name="id" value={{i.treatmentID}}>
               <input type="hidden"  name="fname" value={{i.firstName}}>
               <input type="hidden"  name="lname" value={{i.lastName}}>
+              <input type="hidden"  name="patID" value={{i.patientID}}>
               <input type="hidden"  name="medication" value={{i.medicationName}}>
+              <input type="hidden"  name="medID" value={{i.medicationID}}>
               <input type="hidden"  name="frequency" value={{i.frequency}}>
               <button type="submit" name="Update" value="Update">Update</button>
               </form> </td>
@@ -92,7 +94,7 @@
         </br>
         </br>
           <label for="frequency">Frequency*:</label>
-          <input type="text" name="frequency" id="frequency" required="required" maxlength="4">
+          <input type="text" name="frequency" id="frequency" pattern="QD|TID|QID|[1-9]+[Q]+[1-9]+[H]" required="required" title='Acceptable Notation: QD, TID, QID, or _Q_H, where _ equals a number between 1 and 9'>
           </br>
           </br>
           <input name="Add" type="submit" value="Submit">
@@ -159,7 +161,7 @@
       <ul><b>QD</b>: Once daily</ul>
       <ul><b>TID</b>: Three times daily</ul>
       <ul><b>QID</b>: 4 times daily</ul>
-      <ul><b>_q_H</b>: _ units per _ hours (i.e. 4q3H: 4 units every 3 hours) </ul>
+      <ul><b>_Q_H</b>: _ units per _ hours (i.e. 4q3H: 4 units every 3 hours) </ul>
     </p>
     <p>Note: Fields marked with a "*" are required.</p>
   </div>
