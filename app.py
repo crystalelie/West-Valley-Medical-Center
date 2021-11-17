@@ -194,15 +194,22 @@ def treatments():
         # Update a Treatment
         elif request.form.get('Update'):
             id = request.form['id']
-            fname = request.form['fname'] + " " + request.form['lname']
-            cur.execute("Select DISTINCT concat(p.firstName, ' ', p.lastName) as name, t.patientID FROM Treatments t LEFT JOIN Patients p on t.patientID = p.patientID LEFT JOIN Medications m on t.medicationID = m.medicationID")
-            names = cur.fetchall()
-            medication = request.form['medication']
+            cur_name = request.form['fname'] + " " + request.form['lname']
 
-            frequency = request.form['frequency']
+            cur.execute("Select DISTINCT concat(p.firstName, ' ', p.lastName) as name, p.patientID FROM Patients p WHERE p.firstName !=%s and p.lastName !=%s", [request.form['fname'], request.form['lname']])
+            all_names = cur.fetchall()
+
+            cur_med = request.form['medication']
+            cur.execute("Select DISTINCT m.medicationName, m.medicationID FROM Medications m WHERE m.medicationName !=%s", [cur_med])
+            medications = cur.fetchall()
+
+            cur_freq = request.form['frequency']
+            cur.execute("Select DISTINCT frequency FROM Treatments WHERE frequency !=%s", [cur_freq])
+            all_freq = cur.fetchall()
+
             headers = ["Name", "Medication", "Frequency"]
-            info = [fname, medication, frequency]
-            return render_template('update.html', name="Treatment Update", headers=headers, info=info, id=id, length=len(info))
+            info = [cur_name, request.form['patID'], cur_med, request.form['medID'], cur_freq]
+            return render_template('treatupdate.html', name="Treatment Update", headers=headers, info=info, id=id, all_names=all_names, all_meds=medications, all_freq=all_freq)
 
         elif request.form.get('New'):
             id = request.form['id']
@@ -230,7 +237,7 @@ def treatments():
                 treats = cur.fetchall()
 
 
-    if request.method == 'GET' or request.form.get('Add') or request.form.get('Delete') or request.form.get('Update'):
+    if not request.form.get('Filter'):
         cur.execute("Select t.treatmentID, concat(p.firstName, ' ', p.lastName) as name, m.medicationName, t.medicationID, t.patientID, frequency, p.firstName, p.lastName FROM Treatments t LEFT JOIN Patients p on t.patientID = p.patientID LEFT JOIN Medications m on t.medicationID = m.medicationID")
         treats = cur.fetchall()
 
@@ -264,7 +271,7 @@ def delete_treatment(id):
 
 def update_treatments(patient, medication, frequency, id):
     cur = mysql.connection.cursor()
-    cur.execute("UPDATE Treatmentss SET patientID=%s, medicationID=%s, frequency=%s WHERE treatmentID=%s", [patient, medication, frequency, id])
+    cur.execute("UPDATE Treatments SET patientID=%s, medicationID=%s, frequency=%s WHERE treatmentID=%s", [patient, medication, frequency, id])
     mysql.connection.commit()
     return
 
@@ -280,4 +287,8 @@ def patients():
 @app.route('/patientdetails')
 def patientdetails():
     return render_template('patientdetails.html')
+
+
+if __name__ == "__main__":
+    app.run('127.0.0.1', port=5009, debug=True)
 
