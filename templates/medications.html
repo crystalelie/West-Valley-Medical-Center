@@ -76,7 +76,7 @@
       <form  name="Add" method="POST">
         <fieldset>
           <label for="name">Name*:</label>
-          <input type="text" id="name" name="name" pattern="[A-Za-z]+"  required='required' title='Letters Only'>
+          <input type="text" id="name" name="name" pattern="[A-Z]{1}[a-z]+"  required='required' title='Letters Only. First letter needs to be capitalized and the rest lowercase'>
         </br>
         </br>
           <label for="dosage">Dosage*:</label>
@@ -103,20 +103,46 @@
       <p>like to search for.</p>
       <form method="POST">
         <fieldset>
-          <label for="filter1">Search By*:</label>
+          <label for="filter1">Filter By*:</label>
           <select id="filter1" name="filter1" required>
             <option value=""></option>
-            <option value="Name">Name</option>
-            <option value="Dosage">Dosage</option>
+            <option value="Med">Medication</option>
+            <option value="Dos">Dosage</option>
             <option value="Unit">Unit</option>
           </select>
         </br>
         </br>
   
-          <div>
-            <label for="result">Search For*:</label>
-            <input type="text" id="result" name="result" required='required' title='Letters Only For Name and Unit. Numbers Only For Dosage.'>
+          <div id="hiddenMed"  style="display:none">
+            <label for="result">Medication*:</label>
+          <select id="result" name="result" required>
+            <option></option>
+            {% for i in meds %}
+            <option value={{i.medicationId}}>{{i.medicationName}}</option>
+            {%endfor%}
+          </select>
           </div>
+          
+          <div id="hiddenDos"  style="display:none">
+            <label for="result1">Dosage*:</label>
+            <select id="result1" name="result1" required>
+              <option></option>
+              {% for i in dos %}
+              <option value={{i.dosage}}>{{i.dosage}}</option>
+              {%endfor%}
+            </select>
+          </div>
+  
+          <div id="hiddenUnit"  style="display:none">
+            <label for="result2">Unit*:</label>
+              <select id="result2" name="result2" required>
+                <option></option>
+                <option value='g'>g</option>
+                <option value='mg'>mg</option>
+                <option value='ml'>ml</option>
+              </select>
+          </div>
+              
         </br>
         </br>
           <input name="Filter" type="submit" value="Submit">
@@ -133,7 +159,27 @@
 </div>
 </div>
 
-
+<script>
+  var select = document.getElementById('filter1'),
+  onChange = function(event) {
+    var shown = this.options[this.selectedIndex].value == "Med";
+      document.getElementById('hiddenMed').style.display = shown ? 'block' : 'none';
+    
+      var shown = this.options[this.selectedIndex].value == "Dos";
+      document.getElementById('hiddenDos').style.display = shown ? 'block' : 'none';
+  
+      var shown = this.options[this.selectedIndex].value == "Unit";
+      document.getElementById('hiddenUnit').style.display = shown ? 'block' : 'none';
+  };
+  
+  if (select.addEventListener) {
+      select.addEventListener('change', onChange, false);
+  } else {
+    select.attachEvent('onchange', function() {
+      onChange.apply(select, arguments);
+    });
+  }
+  </script>
 
 
 </body>
