@@ -104,7 +104,7 @@
       <form method="POST">
         <fieldset>
           <label for="filter1">Filter By*:</label>
-          <select id="filter1" name="filter1" required>
+          <select id="filter1" name="filter1">
             <option value=""></option>
             <option value="Med">Medication</option>
             <option value="Dos">Dosage</option>
@@ -115,17 +115,17 @@
   
           <div id="hiddenMed"  style="display:none">
             <label for="result">Medication*:</label>
-          <select id="result" name="result" required>
+          <select id="result" name="result">
             <option></option>
             {% for i in meds %}
-            <option value={{i.medicationId}}>{{i.medicationName}}</option>
+            <option value={{i.medicationID}}>{{i.medicationName}}</option>
             {%endfor%}
           </select>
           </div>
           
           <div id="hiddenDos"  style="display:none">
             <label for="result1">Dosage*:</label>
-            <select id="result1" name="result1" required>
+            <select id="result1" name="result1">
               <option></option>
               {% for i in dos %}
               <option value={{i.dosage}}>{{i.dosage}}</option>
@@ -135,7 +135,7 @@
   
           <div id="hiddenUnit"  style="display:none">
             <label for="result2">Unit*:</label>
-              <select id="result2" name="result2" required>
+              <select id="result2" name="result2">
                 <option></option>
                 <option value='g'>g</option>
                 <option value='mg'>mg</option>
@@ -144,9 +144,10 @@
           </div>
               
         </br>
-        </br>
           <input name="Filter" type="submit" value="Submit">
-        </fieldset>
+        </br>
+        <input name="Reset" type="submit" value="Refresh Page">
+      </fieldset>
         </form>
     </div>
 
