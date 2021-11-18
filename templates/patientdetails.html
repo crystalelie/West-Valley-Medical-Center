@@ -30,17 +30,26 @@
       <div class="table" style="margin-left: auto; margin-right: auto;">
         <table>
           <thead>
-            <th>Patient ID</th>
-            <th>Physician ID</th>
-            <th>Nurse ID</th>
-            <th></th>
+            <tr>
+              {% for header in headings %}
+              <th>{{ header }}</th>
+              {% endfor %}
+            </tr>
           </thead>
+          {% for detail in pd %}
           <tbody>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ detail.patientID }}</td>
+            <td>{{ detail.pf}}</td>
+            <td>{{ detail.pl}}</td>
+            <td>{{ detail.physicianID }}</td>
+            <td>{{ detail.mf}}</td>
+            <td>{{ detail.ml}}</td>
+            <td>{{ detail.nurseID }}</td>
+            <td>{{ detail.nf}}</td>
+            <td>{{ detail.nl}}</td>
             <td><button type="button">Delete</button></td>
           </tbody>
+          {% endfor %}
         </table>
       </div>
 
@@ -52,18 +61,18 @@
           <form method="POST">
             <fieldset>
               <label for="patient">Patient ID*:</label>
-              <input type="text" id="patient">
+              <input type="text" name='patient' required>
               <br>
               <br>
-              <label for="physician">Physician ID*:</label>
-              <input type="text" id="physician">
+              <label for="patient">Physician ID*:</label>
+              <input type="text" name='physician' required>
               <br>
               <br>
-              <label for="nurse">Nurse ID*:</label>
-              <input type="text" id="nurse">
+              <label for="physician">Nurse ID*:</label>
+              <input type="text" name='nurse' required>
               <br>
               <br>
-              <input type="submit" value="Submit">
+              <input type="submit" name='add' value="Submit">
             </fieldset>
           </form>
         </div>
@@ -97,10 +106,10 @@
           <form method="GET">
             <fieldset>
               <label for="patient">Patient ID*:</label>
-              <input type="text" id="patient">
+              <input type="text" name='patient' required>
               <br>
               <br>
-              <input type="submit" value="Submit">
+              <input type="submit" name='search' value="Submit">
             </fieldset>
           </form>
         </div>

@@ -285,17 +285,143 @@ def update_treatments(patient, medication, frequency, id):
     return
 
 
-@app.route('/nurses')
+@app.route('/nurses', methods=['GET', 'POST'])
 def nurses():
-    return render_template('nurses.html')
+    cur = mysql.connection.cursor()
 
-@app.route('/patients')
+    if request.method == 'POST':
+
+        # Add a nurse
+        if request.form.get('add'):
+            fname = request.form['fname']
+            lname = request.form['lname']
+            registered = request.form['registered']
+
+            query = ('INSERT INTO Nurses (firstName, lastName, registered) VALUES (%s, %s, %s)')
+            cur.execute(query, (fname, lname, registered))
+            mysql.connection.commit()
+
+    if request.method == 'GET':
+        # Search for nurse
+        if request.args.get('search'):
+            fname = request.args['fname'].lower()
+            lname = request.args['lname'].lower()
+
+            if fname != '' and lname == '':
+                cur.execute('SELECT * FROM Nurses WHERE Nurses.firstName = LOWER(%s)', (fname, ))
+            elif fname == '' and lname != '':
+                cur.execute('SELECT * FROM Nurses WHERE Nurses.lastName = LOWER(%s)', (lname, ))
+            elif fname != '' and lname != '':
+                cur.execute('SELECT * FROM Nurses WHERE Nurses.firstName = LOWER(%s) and Nurses.lastName = LOWER(%s)', (fname, lname))
+            else: 
+                cur.execute('SELECT * FROM Nurses')
+
+            nurses = cur.fetchall()
+            headings = ('ID', 'First Name', 'Last Name', 'Registered', '')
+
+
+    if not request.args.get('search'):
+        cur.execute('SELECT * FROM Nurses')
+        nurses = cur.fetchall()
+        headings = ('ID', 'First Name', 'Last Name', 'Registered', '')
+
+    return render_template('nurses.html', nurses = nurses, headings = headings)
+
+@app.route('/patients', methods=['GET', 'POST'])
 def patients():
-    return render_template('patients.html')
+    cur = mysql.connection.cursor()
 
-@app.route('/patientdetails')
+    if request.method == 'POST':
+
+        # Add a patient 
+        if request.form.get('add'):
+
+            ssn = request.form['ssn']
+            dob = request.form['dob'] 
+            fname = request.form['fname'] 
+            lname = request.form['lname']   
+            street= request.form['street']  
+            city = request.form['city']
+            state = request.form['state']
+            zip = request.form['zip']
+            phone = request.form['phone']
+
+            query = 'INSERT INTO Patients (ssn, dob, firstName, lastName, streetAddress, city, state, zip, phone) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
+            cur.execute(query, (ssn, dob, fname, lname, street, city, state, zip, phone))
+            mysql.connection.commit()
+
+    if request.method == 'GET': 
+
+        # search for patient
+        if request.args.get('search'):
+            
+            fname = request.args['fname'].lower()
+            lname = request.args['lname'].lower()
+
+            if fname != "" and lname == "":
+                query = 'SELECT * FROM Patients WHERE Patients.firstName = LOWER(%s)'
+                cur.execute(query, (fname, ))
+            
+            elif fname == "" and lname != "":
+                query = 'SELECT * FROM Patients WHERE Patients.lastName = lOWER(%s)'
+                cur.execute(query, (lname, ))
+            elif fname != "" and lname != "":
+                query = 'SELECT * FROM Patients WHERE Patients.firstName = LOWER(%s) and Patients.lastName = LOWER(%s)'
+                cur.execute(query, (fname, lname))
+            else:
+                query = 'SELECT * FROM Patients'
+                cur.execute(query)
+
+            patients = cur.fetchall()
+            headings = ("ID", "SSN", "DOB", "First Name", "Last Name", "Street Address", "City", "State", "Zip Code", "Phone Number", "")
+        
+
+    if not request.args.get('search'):
+        cur.execute("SELECT * FROM Patients")
+        patients = cur.fetchall()
+        headings = ("ID", "SSN", "DOB", "First Name", "Last Name", "Street Address", "City", "State", "Zip Code", "Phone Number", "")
+    
+    return render_template('patients.html', patients = patients, headings = headings)
+
+@app.route('/patientdetails', methods=['GET', 'POST'])
 def patientdetails():
-    return render_template('patientdetails.html')
+    cur = mysql.connection.cursor()
+
+    if request.method == 'POST':
+
+        # Add new patient details
+        patient = request.form['patient']
+        physician = request.form['physician']
+        nurse = request.form['nurse']
+   
+        query = 'INSERT INTO PatientDetails (patientID, physicianID, nurseID) VALUES (%s, %s, %s)'
+        cur.execute(query, (patient, physician, nurse))
+        mysql.connection.commit()
+
+    if request.method == 'GET':
+
+        # Search for patient details
+        if request.args.get('search'):
+
+            patient = request.args['patient']
+            cur.execute('''SELECT p.patientID, p.firstName as pf, p.lastName as pl, md.physicianID, md.firstName as mf, md.lastName as ml, n.nurseID, n.firstName as nf, n.lastName as nl'''
+        ''' FROM PatientDetails pd'''
+        ''' INNER JOIN Patients p ON pd.patientID = p.patientID''' 
+        ''' INNER JOIN Physicians md ON pd.physicianID = md.physicianID''' 
+        ''' LEFT JOIN Nurses n ON pd.nurseID = n.nurseID'''
+        ''' WHERE p.patientID = %s''', (patient, ))
+            pd = cur.fetchall()
+
+    if not request.args.get('search'):
+        cur.execute('''SELECT p.patientID, p.firstName as pf, p.lastName as pl, md.physicianID, md.firstName as mf, md.lastName as ml, n.nurseID, n.firstName as nf, n.lastName as nl'''
+        ''' FROM PatientDetails pd'''
+        ''' INNER JOIN Patients p ON pd.patientID = p.patientID''' 
+        ''' INNER JOIN Physicians md ON pd.physicianID = md.physicianID''' 
+        ''' LEFT JOIN Nurses n ON pd.nurseID = n.nurseID''')
+        pd = cur.fetchall()
+        
+    headings = ('Patient ID', 'Patient First Name', 'Patient Last Name', 'Physician ID', 'Physician First Name', 'Physician Last Name', 'Nurse ID', 'Nurse First Name', 'Nurse Last Name', '')
+    return render_template('patientdetails.html', pd = pd, headings = headings)
 
 
 if __name__ == "__main__":
