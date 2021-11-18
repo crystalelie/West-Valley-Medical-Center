@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, request
 from flask_mysqldb import MySQL
 import requests
@@ -21,6 +22,9 @@ def home():
 @app.route('/medications', methods=['GET', 'POST'])
 def medications():
     cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Medications")
+    meds = cur.fetchall()
+    dos = 0
 
     if request.method == 'POST':
         # Add a new medication
@@ -39,16 +43,16 @@ def medications():
         if request.form.get('Filter'):
             if request.form['filter1'] == "Med":
                 med = request.form['result']
-                cur.execute("SELECT * FROM Medications WHERE medicationName = %s", [name])
+                cur.execute("SELECT * FROM Medications WHERE medicationID = %s", [med])
                 meds = cur.fetchall()
 
             elif request.form['filter1'] == "Dos":
-                dosage = request.form['result']
+                dosage = request.form['result1']
                 cur.execute("SELECT * FROM Medications WHERE dosage = %s", [dosage])
                 meds = cur.fetchall()
 
             elif request.form['filter1'] == 'Unit':
-                unit = request.form['result']
+                unit = request.form['result2']
                 cur.execute("SELECT * FROM Medications WHERE dosageUnit = %s", [unit])
                 meds = cur.fetchall()
 
@@ -72,8 +76,8 @@ def medications():
         cur.execute("SELECT * FROM Medications")
         meds = cur.fetchall()
     
-        cur.execute("SELECT DISTINCT dosage FROM Medications")
-        dos = cur.fetchall()
+    cur.execute("SELECT DISTINCT dosage FROM Medications")
+    dos = cur.fetchall()
 
     return render_template('medications.html', meds=meds, dos=dos)
 
@@ -98,6 +102,8 @@ def update_medications(Name, Dosage, Unit, id):
 @app.route('/physicians', methods=['GET', 'POST'])
 def physicians():
     cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Physicians")
+    phys = cur.fetchall()
 
     if request.method == 'POST':
         # Add a new physician
@@ -141,20 +147,20 @@ def physicians():
                 cur.execute("SELECT * FROM Physicians WHERE lastName = %s", [lname])
                 phys = cur.fetchall()
 
-            elif request.form['filter1'] == 'specialty':
+            elif request.form['filter1'] == 'spec':
                 spec = request.form['result2']
                 cur.execute("SELECT * FROM Physicians WHERE specialty = %s", [spec])
                 phys = cur.fetchall()
 
-    if not request.form.get('Filter1'):
+    if not request.form.get('Filter'):
         cur.execute("SELECT * FROM Physicians")
         phys = cur.fetchall()
-        cur.execute("SELECT DISTINCT firstName FROM Physicians")
-        fname = cur.fetchall()
-        cur.execute("SELECT DISTINCT lastName FROM Physicians")
-        lname = cur.fetchall()
-        cur.execute("SELECT DISTINCT specialty FROM Physicians")
-        spec = cur.fetchall()
+    cur.execute("SELECT DISTINCT firstName FROM Physicians")
+    fname = cur.fetchall()
+    cur.execute("SELECT DISTINCT lastName FROM Physicians")
+    lname = cur.fetchall()
+    cur.execute("SELECT DISTINCT specialty FROM Physicians")
+    spec = cur.fetchall()
 
     return render_template('physicians.html', phys=phys, fname=fname, lname=lname, spec=spec)
 
@@ -179,6 +185,9 @@ def update_physicians(fname, lname, specialty, id):
 @app.route('/treatments', methods=['GET', 'POST'])
 def treatments():
     cur = mysql.connection.cursor()
+    cur.execute("Select t.treatmentID, concat(p.firstName, ' ', p.lastName) as name, m.medicationName, t.medicationID, t.patientID, frequency, p.firstName, p.lastName FROM Treatments t LEFT JOIN Patients p on t.patientID = p.patientID LEFT JOIN Medications m on t.medicationID = m.medicationID")
+    treats = cur.fetchall()
+
     if request.method == 'POST':
 
         # Add a new treatment
@@ -238,11 +247,9 @@ def treatments():
                 cur.execute("Select concat(p.firstName, ' ', p.lastName) as name, m.medicationName, frequency FROM Treatments t LEFT JOIN Patients p on t.patientID = p.patientID LEFT JOIN Medications m on t.medicationID = m.medicationID WHERE t.frequency = %s", [freq])
                 treats = cur.fetchall()
 
-
     if not request.form.get('Filter'):
         cur.execute("Select t.treatmentID, concat(p.firstName, ' ', p.lastName) as name, m.medicationName, t.medicationID, t.patientID, frequency, p.firstName, p.lastName FROM Treatments t LEFT JOIN Patients p on t.patientID = p.patientID LEFT JOIN Medications m on t.medicationID = m.medicationID")
         treats = cur.fetchall()
-
     # Creating a dictionary of distinct patient names
     cur.execute("Select DISTINCT concat(p.firstName, ' ', p.lastName) as name, t.patientID FROM Treatments t LEFT JOIN Patients p on t.patientID = p.patientID LEFT JOIN Medications m on t.medicationID = m.medicationID")
     names = cur.fetchall()
@@ -292,5 +299,5 @@ def patientdetails():
 
 
 if __name__ == "__main__":
-    app.run('127.0.0.1', port=5009, debug=True)
+    app.run('127.0.0.1', port=5010, debug=True)
 
