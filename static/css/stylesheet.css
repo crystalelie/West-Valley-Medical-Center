@@ -98,7 +98,7 @@
 label { 
   text-align: right;
   display: inline-block;
-  width: 100px;
+  width: 115px;
 }
 
 
@@ -109,4 +109,8 @@ p{
 input[type="submit"] {
   display: block;
   margin: 0 auto;
+}
+
+.delete {
+  border: none;
 }
