@@ -1,5 +1,12 @@
 # West-Valley-Medical-Center #
 
+- [Overview](#overview)
+- [Database Outline](#database-outline)
+- [Relationships](#relationships)
+- [ER Diagram](#er-diagram)
+- [Schema](#schema)
+- [UI Screenshots](#ui-screenshots)
+
 # Overview #
 West Valley Medical Center is a database driven web application designed to manage rooms, patients, physicians, treatments, and surgeries for the West Valley Medical Center. It does this by providing a listing of each of the entities as well as allowing users to add, modify, and delete information from the entities. 
 
@@ -56,18 +63,18 @@ The West Valley Medical Center keeps records of all treatment plans that patient
 - frequency: varchar(4), not NULL
 
 
-## Relationships ##
+# Relationships #
 - M:M relationship between Medications and Patient Details is implemented with medicationID and patientID as a FKs in Treatments.
 - 1:M relationship between Nurses and Patient Details is implemented with nurseID as a FK inside of Patient Details. This relationship allows for partial participation.
 - 1:1 relationship between Patients and Patient Details is implemented with patientID as a FK inside of Patients Details. 
 - 1:M relationship between Physicians and Patient Details is implemented with physicianID as a FK inside of Patient Details. This relationship allows for partial participation.
 
 
-## ER Diagram ##
+# ER Diagram #
 ![Screen Shot 2021-11-26 at 11 37 24 AM](https://user-images.githubusercontent.com/71612128/143620289-7cd3404e-3af1-4c46-adf0-d3ffde690fce.png)
 
 
-## Schema ##
+# Schema #
 ![Screen Shot 2021-11-26 at 11 18 34 AM](https://user-images.githubusercontent.com/71612128/143620306-58890ea5-f1db-473f-9655-815877231845.png)
 
-## UI Screenshots ##
+# UI Screenshots
