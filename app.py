@@ -301,6 +301,23 @@ def nurses():
             cur.execute(query, (fname, lname, registered))
             mysql.connection.commit()
 
+        # Update a nurse
+        if request.form.get('update'):
+            id = request.form['id']
+            fname = request.form['fname']
+            lname = request.form['lname']
+            registered = request.form['registered']
+
+            query = ('UPDATE Nurses SET firstName=%s, lastName=%s, registered=%s WHERE nurseID=%s')
+            cur.execute(query, (fname, lname, registered, id))
+            mysql.connection.commit()
+
+        # Delete a nurse
+        if request.form.get('delete'):
+            id = request.form['id']
+            cur.execute('DELETE FROM Nurses WHERE Nurses.nurseID = %s', (id, ))
+            mysql.connection.commit()
+
     if request.method == 'GET':
         # Search for nurse
         if request.args.get('search'):
@@ -327,6 +344,13 @@ def nurses():
 
     return render_template('nurses.html', nurses = nurses, headings = headings)
 
+@app.route('/updatenurse/<int:id>', methods=['GET', 'POST'])
+def updatenurse(id):
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM Nurses WHERE Nurses.nurseID = %s', (id, ))
+    nurse = cur.fetchall()
+    return render_template('updatenurse.html', nurse=nurse)
+
 @app.route('/patients', methods=['GET', 'POST'])
 def patients():
     cur = mysql.connection.cursor()
@@ -348,6 +372,31 @@ def patients():
 
             query = 'INSERT INTO Patients (ssn, dob, firstName, lastName, streetAddress, city, state, zip, phone) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
             cur.execute(query, (ssn, dob, fname, lname, street, city, state, zip, phone))
+            mysql.connection.commit()
+    
+        # Update a patient
+        if request.form.get('update'):
+
+            id = request.form['id']
+            ssn = request.form['ssn']
+            dob = request.form['dob'] 
+            fname = request.form['fname'] 
+            lname = request.form['lname']   
+            street= request.form['street']  
+            city = request.form['city']
+            state = request.form['state']
+            zip = request.form['zip']
+            phone = request.form['phone']
+
+            query = 'UPDATE Patients SET ssn=%s, dob=%s, firstName=%s, lastName=%s, streetAddress=%s, city=%s, state=%s, zip=%s, phone=%s WHERE patientID = %s'
+            cur.execute(query, (ssn, dob, fname, lname, street, city, state, zip, phone, id))
+            mysql.connection.commit()
+
+        # Delete a patient
+        if request.form.get('delete'):
+            
+            id = request.form['id']
+            cur.execute('DELETE FROM Patients WHERE Patients.patientID = %s', (id, ))
             mysql.connection.commit()
 
     if request.method == 'GET': 
@@ -383,6 +432,13 @@ def patients():
     
     return render_template('patients.html', patients = patients, headings = headings)
 
+@app.route('/updatepatient/<int:id>', methods=['GET', 'POST'])
+def updatepatient(id):
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM Patients WHERE Patients.patientID = %s', (id, ))
+    patient = cur.fetchall()
+    return render_template('updatepatient.html', patient=patient)
+
 @app.route('/patientdetails', methods=['GET', 'POST'])
 def patientdetails():
     cur = mysql.connection.cursor()
@@ -390,13 +446,38 @@ def patientdetails():
     if request.method == 'POST':
 
         # Add new patient details
-        patient = request.form['patient']
-        physician = request.form['physician']
-        nurse = request.form['nurse']
-   
-        query = 'INSERT INTO PatientDetails (patientID, physicianID, nurseID) VALUES (%s, %s, %s)'
-        cur.execute(query, (patient, physician, nurse))
-        mysql.connection.commit()
+        if request.form.get('add'):
+
+            patient = request.form['patient']
+            physician = request.form['physician']
+            nurse = request.form['nurse']
+
+            query = 'INSERT INTO PatientDetails (patientID, physicianID, nurseID) VALUES (%s, %s, %s)'
+            cur.execute(query, (patient, physician, nurse))
+            mysql.connection.commit()
+
+    # Update patient details 
+        if request.form.get('update'):
+
+            pid = request.form['pid']
+            mdid = request.form['mdid']
+
+            if request.form['nid']:
+                nid = request.form['nid']
+                query = 'UPDATE PatientDetails SET physicianID=%s, nurseID=%s WHERE patientID=%s'
+                cur.execute(query, (mdid, nid, pid))
+                mysql.connection.commit()
+            else: 
+                query = 'UPDATE PatientDetails SET physicianID=%s, nurseID=NULL WHERE patientID=%s'
+                cur.execute(query, (mdid, pid))
+                mysql.connection.commit()
+
+    # Delete patient details 
+        if request.form.get('delete'):
+            id = request.form['id']
+            cur.execute('DELETE FROM PatientDetails WHERE patientID=%s', (id, ))
+            mysql.connection.commit()
+
 
     if request.method == 'GET':
 
@@ -422,6 +503,13 @@ def patientdetails():
         
     headings = ('Patient ID', 'Patient First Name', 'Patient Last Name', 'Physician ID', 'Physician First Name', 'Physician Last Name', 'Nurse ID', 'Nurse First Name', 'Nurse Last Name', '')
     return render_template('patientdetails.html', pd = pd, headings = headings)
+
+@app.route('/updatepd/<int:id>', methods=['GET', 'POST'])
+def updatepd(id):
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM PatientDetails WHERE PatientDetails.patientID = %s', (id, ))
+    pd = cur.fetchall()
+    return render_template('updatepd.html', pd = pd)
 
 
 if __name__ == "__main__":
