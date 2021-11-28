@@ -47,9 +47,15 @@
             <td>{{ detail.nurseID }}</td>
             <td>{{ detail.nf}}</td>
             <td>{{ detail.nl}}</td>
-            <td><button type="button">Delete</button></td>
-          </tbody>
+            <td>
+              <a href="{{ url_for('updatepd', id=detail.patientID) }}"><button>Update</button></a>
+                <form method='POST' style='display:inline-block;'>         
+                    <input type="hidden" name="id" value='{{ detail.patientID }}'>
+                    <input type="submit" name="delete" value="Delete">
+                </form>
+            </td>
           {% endfor %}
+          </tbody>
         </table>
       </div>
 
@@ -69,7 +75,7 @@
               <br>
               <br>
               <label for="physician">Nurse ID*:</label>
-              <input type="text" name='nurse' required>
+              <input type="text" name='nurse'>
               <br>
               <br>
               <input type="submit" name='add' value="Submit">

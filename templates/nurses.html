@@ -41,8 +41,18 @@
           <td>{{ nurse.nurseID }}</td>
           <td>{{ nurse.firstName }}</td>
           <td>{{ nurse.lastName }}</td>
-          <td>{{ nurse.registered }}</td>
-          <td><button type="button">Delete</button></td>
+          {% if nurse.registered == 0 %}
+             <td>No</td>
+          {% else %}
+            <td>Yes</td>
+          {% endif %}
+          <td>
+            <a href="{{ url_for('updatenurse', id=nurse.nurseID) }}"><button>Update</button></a>
+            <form method='POST' style='display:inline-block;'>         
+              <input type="hidden" name="id" value='{{ nurse.nurseID }}'>
+              <input type="submit" name="delete" value="Delete">
+            </form>
+          </td>
         </tbody>
         {% endfor %}
       </table>
@@ -72,37 +82,6 @@
             <br>
             <br>
             <input type="submit" name='add' value="Submit">
-          </fieldset>
-        </form>
-      </div>
-
-      <div class="child">
-        <h1 style="text-align: center;">Update Nurse</h1>
-        <p>
-          Update a nurse's name <br> or registered status.
-        </p>
-        <form method="POST">
-          <fieldset>
-            <label for="id">ID*:</label>
-            <input type="number" id=id>
-            <br>
-            <br>
-            <label for="fname">First Name*: </label>
-            <input type="text" id="fname">
-            <br>
-            <br>
-            <label for="lname">Last Name*:</label>
-            <input type="text" id="lname">
-            <br>
-            <br>
-            <label for="registered">Registered*:</label>
-            <select id="registered" name="registered">
-              <option value="True">Yes</option>
-              <option value="False">No</option>
-            </select>
-            <br>
-            <br>
-            <input type="submit" value="Submit">
           </fieldset>
         </form>
       </div>

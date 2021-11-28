@@ -27,7 +27,6 @@
 
     <div class="col-s-9">
       <div style="text-align: center;"><h1>Patient Directory</h1></div>
-      <!-- DIV FOR THE TABLE VIEW-->
       <div class="table" style="margin-left: auto; margin-right: auto;">
           <table>
             <thead>
@@ -49,7 +48,13 @@
                 <td>{{ patient.state }}</td>
                 <td>{{ patient.zip }}</td>
                 <td>{{ patient.phone }}</td>
-                <td><button type="button">Delete</button></td>
+                <td>
+                  <a href="{{ url_for('updatepatient', id=patient.patientID) }}"><button>Update</button></a>
+                    <form method='POST' style='display:inline-block;'>         
+                        <input type="hidden" name="id" value='{{ patient.patientID }}'>
+                        <input type="submit" name="delete" value="Delete">
+                    </form>
+                </td>
             {% endfor %}
             </tbody>
           </table>
@@ -64,92 +69,94 @@
           <form method="POST">
             <fieldset>
               <label for="ssn">SSN*:</label>
-              <input type="text" id="ssn" name="ssn" required>
+              <input type="text" id="ssn" name="ssn" pattern="[0-9]{9}" placeholder="#########" required>
               <br>
               <br>
               <label for="dob">Date of Birth*:</label>
-              <input type="text" id="dob" name="dob" required>
+              <input type="text" id="dob" name="dob" placeholder="YYYY-MM-DD" required>
               <br>
               <br>
               <label for="fname">First Name*:</label>
-              <input type="text" id="fname" name="fname" required>
+              <input type="text" id="fname" name="fname" pattern="[a-zA-Z0-9]+" required>
               <br>
               <br>
               <label for="lname">Last Name*:</label>
-              <input type="text" id="lname" name="lname" required>
+              <input type="text" id="lname" name="lname" pattern="[a-zA-Z0-9]+" required>
               <br>
               <br>
               <label for="street">Street Address*:</label>
-              <input type="text" id="street" name="street" required>
+              <input type="text" id="street" name="street" pattern="[a-zA-Z0-9 ]+" required>
               <br>
               <br>
               <label for="city">City*:</label>
-              <input type="text" id="city" name="city" required>
+              <input type="text" id="city" name="city" pattern="[a-zA-Z]+" required>
               <br>
               <br>
               <label for="state">State*:</label>
-              <input type="text" id="state" name="state" required>
+              <select id="state" name="state" required>
+                <option value="AL">Alabama</option>
+                <option value="AK">Alaska</option>
+                <option value="AZ">Arizona</option>
+                <option value="AR">Arkansas</option>
+                <option value="CA">California</option>
+                <option value="CO">Colorado</option>
+                <option value="CT">Connecticut</option>
+                <option value="DE">Delaware</option>
+                <option value="DC">District Of Columbia</option>
+                <option value="FL">Florida</option>
+                <option value="GA">Georgia</option>
+                <option value="HI">Hawaii</option>
+                <option value="ID">Idaho</option>
+                <option value="IL">Illinois</option>
+                <option value="IN">Indiana</option>
+                <option value="IA">Iowa</option>
+                <option value="KS">Kansas</option>
+                <option value="KY">Kentucky</option>
+                <option value="LA">Louisiana</option>
+                <option value="ME">Maine</option>
+                <option value="MD">Maryland</option>
+                <option value="MA">Massachusetts</option>
+                <option value="MI">Michigan</option>
+                <option value="MN">Minnesota</option>
+                <option value="MS">Mississippi</option>
+                <option value="MO">Missouri</option>
+                <option value="MT">Montana</option>
+                <option value="NE">Nebraska</option>
+                <option value="NV">Nevada</option>
+                <option value="NH">New Hampshire</option>
+                <option value="NJ">New Jersey</option>
+                <option value="NM">New Mexico</option>
+                <option value="NY">New York</option>
+                <option value="NC">North Carolina</option>
+                <option value="ND">North Dakota</option>
+                <option value="OH">Ohio</option>
+                <option value="OK">Oklahoma</option>
+                <option value="OR">Oregon</option>
+                <option value="PA">Pennsylvania</option>
+                <option value="RI">Rhode Island</option>
+                <option value="SC">South Carolina</option>
+                <option value="SD">South Dakota</option>
+                <option value="TN">Tennessee</option>
+                <option value="TX">Texas</option>
+                <option value="UT">Utah</option>
+                <option value="VT">Vermont</option>
+                <option value="VA">Virginia</option>
+                <option value="WA">Washington</option>
+                <option value="WV">West Virginia</option>
+                <option value="WI">Wisconsin</option>
+                <option value="WY">Wyoming</option>
+              </select>
               <br>
               <br>
               <label for="zip">Zip Code*:</label>
-              <input type="text" id="zip" name="zip" required>
+              <input type="text" id="zip" name="zip" pattern="[0-9]{5}" placeholder="#####" required>
               <br>
               <br>
               <label for="phone">Phone Number*:</label>
-              <input type="text" id="phone" name="phone" required>
+              <input type="text" id="phone" name="phone" pattern="^\d{3}-\d{3}-\d{4}$" placeholder="###-###-####"required>
               <br>
               <br>
               <input type="submit" name="add" value="Submit">
-            </fieldset>
-          </form>
-        </div>
-        
-        <div class="child">
-          <h1 style="text-align: center;">Update Patient</h1>
-          <p>Update patient information.</p>
-          <form method="POST">
-            <fieldset>
-              <label for="id">ID*:</label>
-              <input type="number" id="id">
-              <br>
-              <br>
-              <label for="ssn">SSN*:</label>
-              <input type="text" id="ssn">
-              <br>
-              <br>
-              <label for="dob">Date of Birth*:</label>
-              <input type="text" id="dob">
-              <br>
-              <br>
-              <label for="fname">First Name*:</label>
-              <input type="text" id="fname">
-              <br>
-              <br>
-              <label for="lname">Last Name*:</label>
-              <input type="text" id="lname">
-              <br>
-              <br>
-              <label for="street">Street Address*:</label>
-              <input type="text" id="street">
-              <br>
-              <br>
-              <label for="city">City*:</label>
-              <input type="text" id="city">
-              <br>
-              <br>
-              <label for="state">State*:</label>
-              <input type="text" id="state">
-              <br>
-              <br>
-              <label for="zip">Zip Code*:</label>
-              <input type="text" id="zip">
-              <br>
-              <br>
-              <label for="phone">Phone Number*:</label>
-              <input type="text" id="phone">
-              <br>
-              <br>
-              <input type="submit" value="Submit">
             </fieldset>
           </form>
         </div>
@@ -173,7 +180,6 @@
             </fieldset>
           </form>
         </div>
-
       </div>
 
       <div class="note">

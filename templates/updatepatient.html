@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename= 'css/stylesheet.css')}}" type="text/css">     
+    </head>
+    <body>
+        <div class='header'>
+            <h1>West Valley Medical Center Database</h1>
+        </div>
+        <div class='row'>
+            <div class='col-s-2 menu' style='text-align: center;'>
+                <ul>
+                    <a href="{{ url_for('home')}}"><li> Home</li></a>
+                    <a href="{{ url_for('medications')}}"><li>Medications</li></a>
+                    <a href="{{ url_for('nurses')}}"><li>Nurses</li></a>
+                    <a href="{{ url_for('patients')}}"><li>Patients</li></a>
+                    <a href="{{ url_for('patientdetails')}}" ><li>Patient Details</li></a>
+                    <a href="{{ url_for('physicians')}}"><li>Physicians</li></a>
+                    <a href="{{ url_for('treatments')}}"><li>Treatments</li></a>
+                </ul>
+            </div>
+        
+
+            <div class='col-s-10'>
+                <div style="text-align: center;"><h1>Update Patient</h1></div>
+                <div class='table' style="margin-left: 30%; margin-right: 30%; text-align: center;">
+                    <form method='POST' action="{{ url_for('patients') }}">
+                        <fieldset>
+                            <input type="hidden" name="id" value='{{ patient[0].patientID }}'>
+                            <label for="ssn">SSN*:</label>
+                            <input type="text" id="ssn" name="ssn" value='{{ patient[0].ssn }}' required>
+                            <br>
+                            <br>
+                            <label for="dob">Date of Birth*:</label>
+                            <input type="text" id="dob" name="dob" value='{{ patient[0].dob }}' required>
+                            <br>
+                            <br>
+                            <label for="fname">First Name*:</label>
+                            <input type="text" id="fname" name="fname" value='{{ patient[0].firstName }}' required>
+                            <br>
+                            <br>
+                            <label for="lname">Last Name*:</label>
+                            <input type="text" id="lname" name="lname" value='{{ patient[0].lastName }}' required>
+                            <br>
+                            <br>
+                            <label for="street">Street Address*:</label>
+                            <input type="text" id="street" name="street" value='{{ patient[0].streetAddress }}' required>
+                            <br>
+                            <br>
+                            <label for="city">City*:</label>
+                            <input type="text" id="city" name="city" value='{{ patient[0].city }}' required>
+                            <br>
+                            <br>
+                            <label for="state">State*:</label>
+                            <input type="text" id="state" name="state" value='{{ patient[0].state }}' required>
+                            <br>
+                            <br>
+                            <label for="zip">Zip Code*:</label>
+                            <input type="text" id="zip" name="zip" value='{{ patient[0].zip }}' required>
+                            <br>
+                            <br>
+                            <label for="phone">Phone Number*:</label>
+                            <input type="text" id="phone" name="phone" value='{{ patient[0].phone }}' required>
+                            <br>
+                            <br>
+                            <input type="submit" name="update" value="Submit">
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

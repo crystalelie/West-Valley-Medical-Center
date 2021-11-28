@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename= 'css/stylesheet.css')}}" type="text/css">     
+    </head>
+    <body>
+        <div class='header'>
+            <h1>West Valley Medical Center Database</h1>
+        </div>
+        <div class='row'>
+            <div class='col-s-2 menu' style='text-align: center;'>
+                <ul>
+                    <a href="{{ url_for('home')}}"><li> Home</li></a>
+                    <a href="{{ url_for('medications')}}"><li>Medications</li></a>
+                    <a href="{{ url_for('nurses')}}"><li>Nurses</li></a>
+                    <a href="{{ url_for('patients')}}"><li>Patients</li></a>
+                    <a href="{{ url_for('patientdetails')}}" ><li>Patient Details</li></a>
+                    <a href="{{ url_for('physicians')}}"><li>Physicians</li></a>
+                    <a href="{{ url_for('treatments')}}"><li>Treatments</li></a>
+                </ul>
+            </div>
+        
+
+            <div class='col-s-10'>
+                <div style="text-align: center;"><h1>Update Nurse</h1></div>
+                <div class='table' style="margin-left: 30%; margin-right: 30%; text-align: center;">
+                    <form method='POST' action="{{ url_for('nurses') }}">
+                        <fieldset>
+                            <input type="hidden" name="id" value='{{ nurse[0].nurseID }}'>
+                            <label for="ssn">First Name*:</label>
+                            <input type="text" id="fname" name="fname" value='{{ nurse[0].firstName }}' pattern="[A-Za-Z]" required>
+                            <br>
+                            <br>
+                            <label for="dob">Last Name*:</label>
+                            <input type="text" id="lname" name="lname" value='{{nurse[0].lastName }}' pattern="[A-Za-Z]" required>
+                            <br>
+                            <br>
+                            <label for="fname">Registered*:</label>
+                            <input type="text" id="registered" name="registered" value='{{ nurse[0].registered }}' pattern="[01]{1}" required>
+                            <br>
+                            <br>
+                            <input type="submit" name="update" value="Submit">
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
