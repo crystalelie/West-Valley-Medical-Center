@@ -38,7 +38,6 @@
         </thead>
         {% for nurse in nurses %}
         <tbody>
-          <td>{{ nurse.nurseID }}</td>
           <td>{{ nurse.firstName }}</td>
           <td>{{ nurse.lastName }}</td>
           {% if nurse.registered == 0 %}

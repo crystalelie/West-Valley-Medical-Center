@@ -334,13 +334,13 @@ def nurses():
                 cur.execute('SELECT * FROM Nurses')
 
             nurses = cur.fetchall()
-            headings = ('ID', 'First Name', 'Last Name', 'Registered', '')
+            headings = ('First Name', 'Last Name', 'Registered', '')
 
 
     if not request.args.get('search'):
         cur.execute('SELECT * FROM Nurses')
         nurses = cur.fetchall()
-        headings = ('ID', 'First Name', 'Last Name', 'Registered', '')
+        headings = ('First Name', 'Last Name', 'Registered', '')
 
     return render_template('nurses.html', nurses = nurses, headings = headings)
 
@@ -422,13 +422,13 @@ def patients():
                 cur.execute(query)
 
             patients = cur.fetchall()
-            headings = ("ID", "SSN", "DOB", "First Name", "Last Name", "Street Address", "City", "State", "Zip Code", "Phone Number", "")
+            headings = ("SSN", "DOB", "First Name", "Last Name", "Street Address", "City", "State", "Zip Code", "Phone Number", "")
         
 
     if not request.args.get('search'):
         cur.execute("SELECT * FROM Patients")
         patients = cur.fetchall()
-        headings = ("ID", "SSN", "DOB", "First Name", "Last Name", "Street Address", "City", "State", "Zip Code", "Phone Number", "")
+        headings = ("SSN", "DOB", "First Name", "Last Name", "Street Address", "City", "State", "Zip Code", "Phone Number", "")
     
     return render_template('patients.html', patients = patients, headings = headings)
 
@@ -484,25 +484,54 @@ def patientdetails():
         # Search for patient details
         if request.args.get('search'):
 
+            # get data for directory table
             patient = request.args['patient']
-            cur.execute('''SELECT p.patientID, p.firstName as pf, p.lastName as pl, md.physicianID, md.firstName as mf, md.lastName as ml, n.nurseID, n.firstName as nf, n.lastName as nl'''
-        ''' FROM PatientDetails pd'''
-        ''' INNER JOIN Patients p ON pd.patientID = p.patientID''' 
-        ''' INNER JOIN Physicians md ON pd.physicianID = md.physicianID''' 
-        ''' LEFT JOIN Nurses n ON pd.nurseID = n.nurseID'''
-        ''' WHERE p.patientID = %s''', (patient, ))
+            cur.execute('''SELECT p.patientID, CONCAT (p.firstName, ' ', p.lastName) as patient, md.physicianID, CONCAT (md.firstName, ' ', md.lastName) as physician, n.nurseID, CONCAT (n.firstName, ' ', n.lastName) as nurse'''
+            ''' FROM PatientDetails pd'''
+            ''' INNER JOIN Patients p ON pd.patientID = p.patientID''' 
+            ''' INNER JOIN Physicians md ON pd.physicianID = md.physicianID''' 
+            ''' LEFT JOIN Nurses n ON pd.nurseID = n.nurseID'''
+            ''' WHERE p.patientID = %s''', (patient, ))
             pd = cur.fetchall()
 
+            # get patients not already in PatientDetails
+            cur.execute('''SELECT Patients.PatientID, CONCAT(Patients.firstName, ' ', Patients.lastName) as patientName FROM Patients WHERE Patients.PatientID NOT IN '''
+            '''(SELECT PatientDetails.patientID FROM PatientDetails)''')
+            patients = cur.fetchall()
+
+            # get physicians
+            cur.execute('''SELECT Physicians.physicianID, CONCAT(Physicians.firstName, ' ', Physicians.lastName) as mdName FROM Physicians ''')
+            physicians = cur.fetchall()
+
+            # get nurses
+            cur.execute('''SELECT Nurses.nurseID, CONCAT(Nurses.firstName, ' ', Nurses.lastNAme) nurseName FROM Nurses ''')
+            nurses = cur.fetchall()
+
     if not request.args.get('search'):
-        cur.execute('''SELECT p.patientID, p.firstName as pf, p.lastName as pl, md.physicianID, md.firstName as mf, md.lastName as ml, n.nurseID, n.firstName as nf, n.lastName as nl'''
+
+        # get data for directory table
+        cur.execute('''SELECT p.patientID, CONCAT (p.firstName, ' ', p.lastName) as patient, CONCAT (md.firstName, ' ', md.lastName) as physician, concat(n.firstName, ' ', n.lastName) as nurse'''
         ''' FROM PatientDetails pd'''
         ''' INNER JOIN Patients p ON pd.patientID = p.patientID''' 
         ''' INNER JOIN Physicians md ON pd.physicianID = md.physicianID''' 
         ''' LEFT JOIN Nurses n ON pd.nurseID = n.nurseID''')
         pd = cur.fetchall()
-        
-    headings = ('Patient ID', 'Patient First Name', 'Patient Last Name', 'Physician ID', 'Physician First Name', 'Physician Last Name', 'Nurse ID', 'Nurse First Name', 'Nurse Last Name', '')
-    return render_template('patientdetails.html', pd = pd, headings = headings)
+
+        # get patients not already in PatientDetails
+        cur.execute('''SELECT Patients.PatientID, CONCAT(Patients.firstName, ' ', Patients.lastName) as patientName FROM Patients WHERE Patients.PatientID NOT IN '''
+        '''(SELECT PatientDetails.patientID FROM PatientDetails)''')
+        patients = cur.fetchall()
+
+        # get physicians
+        cur.execute('''SELECT Physicians.physicianID, CONCAT(Physicians.firstName, ' ', Physicians.lastName) as mdName FROM Physicians ''')
+        physicians = cur.fetchall()
+
+        # get nurses
+        cur.execute('''SELECT Nurses.nurseID, CONCAT(Nurses.firstName, ' ', Nurses.lastNAme) as nurseName FROM Nurses ''')
+        nurses = cur.fetchall()
+
+    headings = ('Patient', 'Physician', 'Nurse', '')
+    return render_template('patientdetails.html', pd = pd, patients = patients, physicians = physicians, nurses = nurses, headings = headings)
 
 @app.route('/updatepd/<int:id>', methods=['GET', 'POST'])
 def updatepd(id):
