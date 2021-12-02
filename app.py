@@ -5,6 +5,7 @@ import requests
 
 app = Flask(__name__)
 
+
 app.config['MYSQL_USER'] = 'cs340_eliec'
 app.config['MYSQL_PASSWORD'] = '3704'
 app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
@@ -293,8 +294,8 @@ def nurses():
 
         # Add a nurse
         if request.form.get('add'):
-            fname = request.form['fname']
-            lname = request.form['lname']
+            fname = request.form['fname'].capitalize() 
+            lname = request.form['lname'].capitalize() 
             registered = request.form['registered']
 
             query = ('INSERT INTO Nurses (firstName, lastName, registered) VALUES (%s, %s, %s)')
@@ -304,8 +305,8 @@ def nurses():
         # Update a nurse
         if request.form.get('update'):
             id = request.form['id']
-            fname = request.form['fname']
-            lname = request.form['lname']
+            fname = request.form['fname'].capitalize() 
+            lname = request.form['lname'].capitalize() 
             registered = request.form['registered']
 
             query = ('UPDATE Nurses SET firstName=%s, lastName=%s, registered=%s WHERE nurseID=%s')
@@ -362,10 +363,10 @@ def patients():
 
             ssn = request.form['ssn']
             dob = request.form['dob'] 
-            fname = request.form['fname'] 
-            lname = request.form['lname']   
+            fname = request.form['fname'].capitalize()
+            lname = request.form['lname'].capitalize()   
             street= request.form['street']  
-            city = request.form['city']
+            city = request.form['city'].capitalize()
             state = request.form['state']
             zip = request.form['zip']
             phone = request.form['phone']
@@ -380,10 +381,10 @@ def patients():
             id = request.form['id']
             ssn = request.form['ssn']
             dob = request.form['dob'] 
-            fname = request.form['fname'] 
-            lname = request.form['lname']   
+            fname = request.form['fname'].capitalize()  
+            lname = request.form['lname'].capitalize()    
             street= request.form['street']  
-            city = request.form['city']
+            city = request.form['city'].capitalize() 
             state = request.form['state']
             zip = request.form['zip']
             phone = request.form['phone']
@@ -450,11 +451,17 @@ def patientdetails():
 
             patient = request.form['patient']
             physician = request.form['physician']
-            nurse = request.form['nurse']
 
-            query = 'INSERT INTO PatientDetails (patientID, physicianID, nurseID) VALUES (%s, %s, %s)'
-            cur.execute(query, (patient, physician, nurse))
-            mysql.connection.commit()
+            if request.form['nurse'] != 'None':
+                nurse = request.form['nurse']
+                query = 'INSERT INTO PatientDetails (patientID, physicianID, nurseID) VALUES (%s, %s, %s)'
+                cur.execute(query, (patient, physician, nurse))
+                mysql.connection.commit()
+            
+            else:
+                query = 'INSERT INTO PatientDetails (patientID, physicianID, nurseID) VALUES (%s, %s, NULL)'
+                cur.execute(query, (patient, physician))
+                mysql.connection.commit()
 
     # Update patient details 
         if request.form.get('update'):
@@ -462,7 +469,7 @@ def patientdetails():
             pid = request.form['pid']
             mdid = request.form['mdid']
 
-            if request.form['nid']:
+            if request.form['nid'] != 'None':
                 nid = request.form['nid']
                 query = 'UPDATE PatientDetails SET physicianID=%s, nurseID=%s WHERE patientID=%s'
                 cur.execute(query, (mdid, nid, pid))
@@ -495,7 +502,7 @@ def patientdetails():
             pd = cur.fetchall()
 
             # get patients not already in PatientDetails
-            cur.execute('''SELECT Patients.PatientID, CONCAT(Patients.firstName, ' ', Patients.lastName) as patientName FROM Patients WHERE Patients.PatientID NOT IN '''
+            cur.execute('''SELECT Patients.patientID, CONCAT(Patients.firstName, ' ', Patients.lastName) as patientName FROM Patients WHERE Patients.patientID NOT IN '''
             '''(SELECT PatientDetails.patientID FROM PatientDetails)''')
             patients = cur.fetchall()
 
@@ -518,7 +525,7 @@ def patientdetails():
         pd = cur.fetchall()
 
         # get patients not already in PatientDetails
-        cur.execute('''SELECT Patients.PatientID, CONCAT(Patients.firstName, ' ', Patients.lastName) as patientName FROM Patients WHERE Patients.PatientID NOT IN '''
+        cur.execute('''SELECT Patients.patientID, CONCAT(Patients.firstName, ' ', Patients.lastName) as patientName FROM Patients WHERE Patients.patientID NOT IN '''
         '''(SELECT PatientDetails.patientID FROM PatientDetails)''')
         patients = cur.fetchall()
 
@@ -538,7 +545,20 @@ def updatepd(id):
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM PatientDetails WHERE PatientDetails.patientID = %s', (id, ))
     pd = cur.fetchall()
-    return render_template('updatepd.html', pd = pd)
+
+    # get patient's name 
+    cur.execute('''SELECT CONCAT(Patients.firstName, ' ', Patients.lastName) as patientName FROM Patients WHERE Patients.patientID=%s''', (id, ))
+    patientname = cur.fetchall()
+
+    # get physicians
+    cur.execute('''SELECT Physicians.physicianID, CONCAT(Physicians.firstName, ' ', Physicians.lastName) as mdName FROM Physicians ''')
+    physicians = cur.fetchall()
+
+    # get nurses
+    cur.execute('''SELECT Nurses.nurseID, CONCAT(Nurses.firstName, ' ', Nurses.lastNAme) nurseName FROM Nurses ''')
+    nurses = cur.fetchall()
+
+    return render_template('updatepd.html', pd = pd, physicians = physicians, nurses = nurses, patientname = patientname)
 
 
 if __name__ == "__main__":

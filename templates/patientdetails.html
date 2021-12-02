@@ -80,6 +80,7 @@
               <br>
               <label for="nurse">Nurse Name*:</label>
               <select name='nurse'>
+                <option value='None'>None</option>
                 {% for nurse in nurses %}
                 <option value='{{ nurse.nurseID }}'>{{ nurse.nurseName }}</option>
                 {% endfor %}
@@ -93,7 +94,7 @@
 
         <div class="child">
           <h1 style="text-align: center;">Search Patient Details</h1>
-          <p>Search by patient ID.</p>
+          <p>Search by patient name.</p>
           <form method="GET">
             <fieldset>
               <label for="patient">Patient*:</label>

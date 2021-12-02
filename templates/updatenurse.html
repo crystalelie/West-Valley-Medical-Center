@@ -37,7 +37,10 @@
                             <br>
                             <br>
                             <label for="fname">Registered*:</label>
-                            <input type="text" id="registered" name="registered" value='{{ nurse[0].registered }}' pattern="[01]{1}" required>
+                            <select name='registered' id="registered" required>
+                                <option value=1 {% if nurse[0].registered == 1 %} selected {% endif %}>Yes</option>
+                                <option value=0 {% if nurse[0].registered == 0 %} selected {% endif %}>No</option>
+                            </select>
                             <br>
                             <br>
                             <input type="submit" name="update" value="Submit">

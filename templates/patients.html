@@ -72,23 +72,23 @@
               <br>
               <br>
               <label for="dob">Date of Birth*:</label>
-              <input type="text" id="dob" name="dob" placeholder="YYYY-MM-DD" required>
+              <input type="date" id="dob" name="dob" required>
               <br>
               <br>
               <label for="fname">First Name*:</label>
-              <input type="text" id="fname" name="fname" pattern="[a-zA-Z0-9]+" required>
+              <input type="text" id="fname" name="fname" pattern="[A-Za-z]+" required>
               <br>
               <br>
               <label for="lname">Last Name*:</label>
-              <input type="text" id="lname" name="lname" pattern="[a-zA-Z0-9]+" required>
+              <input type="text" id="lname" name="lname" pattern="[A-Za-z]+" required>
               <br>
               <br>
               <label for="street">Street Address*:</label>
-              <input type="text" id="street" name="street" pattern="[a-zA-Z0-9 ]+" required>
+              <input type="text" id="street" name="street" pattern="([0-9])+)[ ]{0,1})([A-Za-z])+([ ])*([A-Za-z])*" required>
               <br>
               <br>
               <label for="city">City*:</label>
-              <input type="text" id="city" name="city" pattern="[a-zA-Z]+" required>
+              <input type="text" id="city" name="city" pattern="[A-Za-z]+" required>
               <br>
               <br>
               <label for="state">State*:</label>

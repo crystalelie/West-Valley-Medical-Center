@@ -24,7 +24,8 @@
 
             <div class='col-s-10'>
                 <div style="text-align: center;">
-                    <h1>Update Patient Details</h1>
+                    <h1>Update Patient Details for {{ patientname[0].patientName }}</h1> 
+                    
                     <p>If patient does not have a nurse, leave Nurse ID field empty.</p>
                 </div>
                 <div class='table' style="margin-left: 30%; margin-right: 30%; text-align: center;">
@@ -32,11 +33,20 @@
                         <fieldset>
                             <input type="hidden" name="pid" value='{{ pd[0].patientID}}'>
                             <label for="mdid">Physician ID*:</label>
-                            <input type="text" name="mdid" value='{{ pd[0].physicianID }}' required>
+                            <select name='mdid'>
+                                {% for physician in physicians %}
+                                <option value='{{ physician.physicianID }}' {%if physician.physicianID == pd[0].physicianID %} selected {% endif %}>{{ physician.mdName }}</option>
+                                {% endfor %}
+                            </select>
                             <br>
                             <br>
                             <label for="nid">Nurse ID:</label>
-                            <input type="text" name="nid" value='{{ pd[0].nurseID }}'>
+                            <select name='nid'>
+                                <option value='None' {% if pd[0].nurseID == 'None' %} selected {% endif %}>None</option>
+                                {% for nurse in nurses %}
+                                <option value='{{ nurse.nurseID }}' {%if nurse.nurseID == pd[0].nurseID %} selected {% endif %} >{{ nurse.nurseName }}</option>
+                                {% endfor %}
+                            </select>
                             <br>
                             <br>
                             <input type="submit" name="update" value="Submit">
