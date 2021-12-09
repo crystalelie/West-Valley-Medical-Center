@@ -78,3 +78,24 @@ The West Valley Medical Center keeps records of all treatment plans that patient
 ![Screen Shot 2021-11-26 at 11 18 34 AM](https://user-images.githubusercontent.com/71612128/143620306-58890ea5-f1db-473f-9655-815877231845.png)
 
 # UI Screenshots
+
+Homepage
+![Screen Shot 2021-12-09 at 11 56 51 AM](https://user-images.githubusercontent.com/71612128/145458579-98519946-880c-495f-99d2-32d41c49c0d4.png)
+
+Medications!
+[Screen Shot 2021-12-09 at 11 57 05 AM](https://user-images.githubusercontent.com/71612128/145458598-ab105ad6-81a9-4c24-806f-c9d0692f822c.png)
+
+Nurses
+![Screen Shot 2021-12-09 at 11 57 11 AM](https://user-images.githubusercontent.com/71612128/145458659-6ce2b5b0-4f33-45e0-b455-e4507b53f2dd.png)
+
+Patients
+![Screen Shot 2021-12-09 at 11 57 24 AM](https://user-images.githubusercontent.com/71612128/145458673-a30115b2-e26a-44d2-919d-d97a556932f4.png)
+
+Patient Details
+![Screen Shot 2021-12-09 at 11 57 31 AM](https://user-images.githubusercontent.com/71612128/145458697-0c2e97ec-ee0e-4cfb-a89d-3fd80d17658e.png)
+
+Physicians
+![Screen Shot 2021-12-09 at 11 57 37 AM](https://user-images.githubusercontent.com/71612128/145458712-8e2cd0b2-38bc-4069-9647-6814879014bc.png)
+
+Treatments
+![Screen Shot 2021-12-09 at 11 57 42 AM](https://user-images.githubusercontent.com/71612128/145458724-fb6c1552-b0af-4708-b1c4-ab22ba761269.png)
