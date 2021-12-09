@@ -30,7 +30,7 @@ An individual who visits the West Valley Medical Center needs to provide mandato
 ### Patient Details ###
 An individual who visits the West Valley Medical Center will have more information added to their patient record at the hospital. This information is regarding their current stay at the hospital. This includes their patient id, physician id, and room id.
 - patientID, int(11), not NULL, PK, FK
-- physicianID: int(11), DEFAULT NULL, FK
+- physicianID: int(11), Not NULL, FK
 - nurseID: int(11), DEFAULT NULL, FK
 
 
@@ -82,8 +82,8 @@ The West Valley Medical Center keeps records of all treatment plans that patient
 Homepage
 ![Screen Shot 2021-12-09 at 11 56 51 AM](https://user-images.githubusercontent.com/71612128/145458579-98519946-880c-495f-99d2-32d41c49c0d4.png)
 
-Medications!
-[Screen Shot 2021-12-09 at 11 57 05 AM](https://user-images.githubusercontent.com/71612128/145458598-ab105ad6-81a9-4c24-806f-c9d0692f822c.png)
+Medications
+![Screen Shot 2021-12-09 at 11 57 05 AM](https://user-images.githubusercontent.com/71612128/145458598-ab105ad6-81a9-4c24-806f-c9d0692f822c.png)
 
 Nurses
 ![Screen Shot 2021-12-09 at 11 57 11 AM](https://user-images.githubusercontent.com/71612128/145458659-6ce2b5b0-4f33-45e0-b455-e4507b53f2dd.png)
