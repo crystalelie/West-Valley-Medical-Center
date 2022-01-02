@@ -2,19 +2,16 @@
 from flask import Flask, render_template, request
 from flask_mysqldb import MySQL
 import requests
-
+import sys
 app = Flask(__name__)
 
-
-app.config['MYSQL_USER'] = 'cs340_eliec'
-app.config['MYSQL_PASSWORD'] = '3704'
-app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
-app.config['MYSQL_DB'] = 'cs340_eliec'
+app.config['MYSQL_USER'] = 
+app.config['MYSQL_PASSWORD'] = 
+app.config['MYSQL_HOST'] = 
+app.config['MYSQL_DB'] = 
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
-
-
 
 @app.route('/')
 def home():
@@ -64,7 +61,10 @@ def medications():
             Unit = request.form['unit']
             headers = ["Name", "Dosage", "Unit"]
             info = [Name, Dosage, Unit]
-            return render_template('medupdate.html', name="Medication Update", headers=headers, info=info, id=id, length=len(info))
+            cur.execute("SELECT DISTINCT dosageUnit FROM Medications WHERE dosageUnit != %s ORDER BY dosage ASC", [Unit])
+            unit = cur.fetchall()
+
+            return render_template('medupdate.html', name="Medication Update", headers=headers, info=info, id=id, unit=unit)
 
         elif request.form.get('New'):
             id = request.form['id']
@@ -74,13 +74,16 @@ def medications():
             update_medications(Name, Dosage, Unit, id)
 
     if not request.form.get('Filter'):
-        cur.execute("SELECT * FROM Medications")
+        cur.execute("SELECT * FROM Medications ORDER BY medicationName ASC")
         meds = cur.fetchall()
     
-    cur.execute("SELECT DISTINCT dosage FROM Medications")
+    cur.execute("SELECT DISTINCT dosage FROM Medications ORDER BY dosage ASC")
     dos = cur.fetchall()
 
-    return render_template('medications.html', meds=meds, dos=dos)
+    cur.execute("SELECT DISTINCT dosageUnit FROM Medications ORDER BY dosage ASC")
+    unit = cur.fetchall()
+
+    return render_template('medications.html', meds=meds, dos=dos, unit=unit)
 
 def add_medication(name, dosage, unit):
     cur = mysql.connection.cursor()
@@ -154,13 +157,14 @@ def physicians():
                 phys = cur.fetchall()
 
     if not request.form.get('Filter'):
-        cur.execute("SELECT * FROM Physicians")
+        cur.execute("SELECT * FROM Physicians ORDER BY lastName ASC")
         phys = cur.fetchall()
-    cur.execute("SELECT DISTINCT firstName FROM Physicians")
+
+    cur.execute("SELECT DISTINCT firstName FROM Physicians ORDER BY firstName ASC")
     fname = cur.fetchall()
-    cur.execute("SELECT DISTINCT lastName FROM Physicians")
+    cur.execute("SELECT DISTINCT lastName FROM Physicians ORDER BY lastName ASC")
     lname = cur.fetchall()
-    cur.execute("SELECT DISTINCT specialty FROM Physicians")
+    cur.execute("SELECT DISTINCT specialty FROM Physicians ORDER BY specialty ASC")
     spec = cur.fetchall()
 
     return render_template('physicians.html', phys=phys, fname=fname, lname=lname, spec=spec)
@@ -216,12 +220,10 @@ def treatments():
             medications = cur.fetchall()
 
             cur_freq = request.form['frequency']
-            cur.execute("Select DISTINCT frequency FROM Treatments WHERE frequency !=%s", [cur_freq])
-            all_freq = cur.fetchall()
 
             headers = ["Name", "Medication", "Frequency"]
             info = [cur_name, request.form['patID'], cur_med, request.form['medID'], cur_freq]
-            return render_template('treatupdate.html', name="Treatment Update", headers=headers, info=info, id=id, all_names=all_names, all_meds=medications, all_freq=all_freq)
+            return render_template('treatupdate.html', name="Treatment Update", headers=headers, info=info, id=id, all_names=all_names, all_meds=medications)
 
         elif request.form.get('New'):
             id = request.form['id']
@@ -249,21 +251,31 @@ def treatments():
                 treats = cur.fetchall()
 
     if not request.form.get('Filter'):
-        cur.execute("Select t.treatmentID, concat(p.firstName, ' ', p.lastName) as name, m.medicationName, t.medicationID, t.patientID, frequency, p.firstName, p.lastName FROM Treatments t LEFT JOIN Patients p on t.patientID = p.patientID LEFT JOIN Medications m on t.medicationID = m.medicationID")
+        cur.execute("Select t.treatmentID, concat(p.firstName, ' ', p.lastName) as name, m.medicationName, m.medicationID, t.patientID, frequency, p.firstName, p.lastName FROM Treatments t LEFT JOIN Patients p on t.patientID = p.patientID LEFT JOIN Medications m on t.medicationID = m.medicationID ORDER BY name, medicationName ASC")
         treats = cur.fetchall()
-    # Creating a dictionary of distinct patient names
-    cur.execute("Select DISTINCT concat(p.firstName, ' ', p.lastName) as name, t.patientID FROM Treatments t LEFT JOIN Patients p on t.patientID = p.patientID LEFT JOIN Medications m on t.medicationID = m.medicationID")
+
+    # Creating a dictionary of distinct patient names for FILTER drop down
+    cur.execute("Select DISTINCT concat(p.firstName, ' ', p.lastName) as name, t.patientID FROM Treatments t LEFT JOIN Patients p on t.patientID = p.patientID LEFT JOIN Medications m on t.medicationID = m.medicationID ORDER BY name ASC")
     names = cur.fetchall()
 
-    # Creating a dictionary of distinct medication names
-    cur.execute("Select DISTINCT m.medicationName, t.medicationID FROM Treatments t LEFT JOIN Patients p on t.patientID = p.patientID LEFT JOIN Medications m on t.medicationID = m.medicationID")
+    # Creating a dictionary of distinct medication names for FILTER drop down
+    cur.execute("Select DISTINCT m.medicationName, t.medicationID FROM Treatments t LEFT JOIN Patients p on t.patientID = p.patientID LEFT JOIN Medications m on t.medicationID = m.medicationID ORDER BY m.medicationName ASC")
     medications = cur.fetchall()
 
-    # Creating a dictionary of distinct frequencies
-    cur.execute("Select DISTINCT frequency FROM Treatments")
+    # Creating a dictionary of distinct frequencies for FILTER drop down
+    cur.execute("Select DISTINCT frequency FROM Treatments ORDER BY frequency ASC")
     freq = cur.fetchall()
 
-    return render_template('treatments.html', treats=treats, names=names, meds=medications, freq=freq)
+    # Creating drop down for patients and medications that are in the current table to choose to ADD
+    cur.execute("Select patientID, concat(firstName, ' ', lastName) as name FROM Patients ORDER BY name ASC")
+    add_name = cur.fetchall()
+
+
+    cur.execute("Select medicationID, medicationName FROM Medications ORDER BY medicationName ASC")
+    add_med = cur.fetchall()
+
+
+    return render_template('treatments.html', treats=treats, names=names, meds=medications, freq=freq, add_name=add_name, add_med=add_med)
 
 def add_treatment(pat, med, freq):
     cur = mysql.connection.cursor()
@@ -294,8 +306,8 @@ def nurses():
 
         # Add a nurse
         if request.form.get('add'):
-            fname = request.form['fname'].capitalize() 
-            lname = request.form['lname'].capitalize() 
+            fname = request.form['fname']
+            lname = request.form['lname']
             registered = request.form['registered']
 
             query = ('INSERT INTO Nurses (firstName, lastName, registered) VALUES (%s, %s, %s)')
@@ -305,8 +317,8 @@ def nurses():
         # Update a nurse
         if request.form.get('update'):
             id = request.form['id']
-            fname = request.form['fname'].capitalize() 
-            lname = request.form['lname'].capitalize() 
+            fname = request.form['fname']
+            lname = request.form['lname']
             registered = request.form['registered']
 
             query = ('UPDATE Nurses SET firstName=%s, lastName=%s, registered=%s WHERE nurseID=%s')
@@ -332,14 +344,14 @@ def nurses():
             elif fname != '' and lname != '':
                 cur.execute('SELECT * FROM Nurses WHERE Nurses.firstName = LOWER(%s) and Nurses.lastName = LOWER(%s)', (fname, lname))
             else: 
-                cur.execute('SELECT * FROM Nurses')
+                cur.execute('SELECT * FROM Nurses ORDER BY lastName, firstName')
 
             nurses = cur.fetchall()
             headings = ('First Name', 'Last Name', 'Registered', '')
 
 
     if not request.args.get('search'):
-        cur.execute('SELECT * FROM Nurses')
+        cur.execute('SELECT * FROM Nurses ORDER BY lastName, firstName')
         nurses = cur.fetchall()
         headings = ('First Name', 'Last Name', 'Registered', '')
 
@@ -350,11 +362,66 @@ def updatenurse(id):
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM Nurses WHERE Nurses.nurseID = %s', (id, ))
     nurse = cur.fetchall()
-    return render_template('updatenurse.html', nurse=nurse)
+
+    return render_template('updatenurse.html', headers= ['First Name', 'Last Name', 'Registered'], nurse=nurse)
 
 @app.route('/patients', methods=['GET', 'POST'])
 def patients():
     cur = mysql.connection.cursor()
+
+    states = {
+    'AK': 'Alaska',
+    'AL': 'Alabama',
+    'AR': 'Arkansas',
+    'AZ': 'Arizona',
+    'CA': 'California',
+    'CO': 'Colorado',
+    'CT': 'Connecticut',
+    'DC': 'District of Columbia',
+    'DE': 'Delaware',
+    'FL': 'Florida',
+    'GA': 'Georgia',
+    'HI': 'Hawaii',
+    'IA': 'Iowa',
+    'ID': 'Idaho',
+    'IL': 'Illinois',
+    'IN': 'Indiana',
+    'KS': 'Kansas',
+    'KY': 'Kentucky',
+    'LA': 'Louisiana',
+    'MA': 'Massachusetts',
+    'MD': 'Maryland',
+    'ME': 'Maine',
+    'MI': 'Michigan',
+    'MN': 'Minnesota',
+    'MO': 'Missouri',
+    'MS': 'Mississippi',
+    'MT': 'Montana',
+    'NC': 'North Carolina',
+    'ND': 'North Dakota',
+    'NE': 'Nebraska',
+    'NH': 'New Hampshire',
+    'NJ': 'New Jersey',
+    'NM': 'New Mexico',
+    'NV': 'Nevada',
+    'NY': 'New York',
+    'OH': 'Ohio',
+    'OK': 'Oklahoma',
+    'OR': 'Oregon',
+    'PA': 'Pennsylvania',
+    'RI': 'Rhode Island',
+    'SC': 'South Carolina',
+    'SD': 'South Dakota',
+    'TN': 'Tennessee',
+    'TX': 'Texas',
+    'UT': 'Utah',
+    'VA': 'Virginia',
+    'VT': 'Vermont',
+    'WA': 'Washington',
+    'WI': 'Wisconsin',
+    'WV': 'West Virginia',
+    'WY': 'Wyoming'
+}
 
     if request.method == 'POST':
 
@@ -363,10 +430,10 @@ def patients():
 
             ssn = request.form['ssn']
             dob = request.form['dob'] 
-            fname = request.form['fname'].capitalize()
-            lname = request.form['lname'].capitalize()   
+            fname = request.form['fname'] 
+            lname = request.form['lname']   
             street= request.form['street']  
-            city = request.form['city'].capitalize()
+            city = request.form['city']
             state = request.form['state']
             zip = request.form['zip']
             phone = request.form['phone']
@@ -381,10 +448,10 @@ def patients():
             id = request.form['id']
             ssn = request.form['ssn']
             dob = request.form['dob'] 
-            fname = request.form['fname'].capitalize()  
-            lname = request.form['lname'].capitalize()    
+            fname = request.form['fname'] 
+            lname = request.form['lname']   
             street= request.form['street']  
-            city = request.form['city'].capitalize() 
+            city = request.form['city']
             state = request.form['state']
             zip = request.form['zip']
             phone = request.form['phone']
@@ -409,58 +476,118 @@ def patients():
             lname = request.args['lname'].lower()
 
             if fname != "" and lname == "":
-                query = 'SELECT * FROM Patients WHERE Patients.firstName = LOWER(%s)'
-                cur.execute(query, (fname, ))
+                cur.execute("SELECT patientID, firstName, lastName, ssn, dob as db, streetAddress, city, state, zip, phone FROM Patients WHERE firstName = LOWER(%s) ORDER BY lastName, firstName", [fname])
             
             elif fname == "" and lname != "":
-                query = 'SELECT * FROM Patients WHERE Patients.lastName = lOWER(%s)'
-                cur.execute(query, (lname, ))
+                cur.execute("SELECT patientID, firstName, lastName, ssn, dob as db, streetAddress, city, state, zip, phone FROM Patients WHERE lastName = LOWER(%s) ORDER BY lastName, firstName", [lname])
+                
             elif fname != "" and lname != "":
-                query = 'SELECT * FROM Patients WHERE Patients.firstName = LOWER(%s) and Patients.lastName = LOWER(%s)'
-                cur.execute(query, (fname, lname))
+                cur.execute("SELECT patientID, firstName, lastName, ssn, dob as db, streetAddress, city, state, zip, phone FROM Patients WHERE firstName = LOWER(%s) AND lastName= LOWER(%s) ORDER BY lastName, firstName",  [fname, lname])
+                
             else:
-                query = 'SELECT * FROM Patients'
+                query = cur.execute("SELECT patientID, firstName, lastName, ssn, dob as db, streetAddress, city, state, zip, phone FROM Patients ORDER BY lastName, firstName")
                 cur.execute(query)
 
+
             patients = cur.fetchall()
-            headings = ("SSN", "DOB", "First Name", "Last Name", "Street Address", "City", "State", "Zip Code", "Phone Number", "")
+
+            headings = ("First Name", "Last Name", "SSN", "Date of Birth", "Street Address", "City", "State", "Zip Code", "Phone Number", "")
         
 
     if not request.args.get('search'):
-        cur.execute("SELECT * FROM Patients")
+        cur.execute("SELECT patientID, firstName, lastName, ssn,  DATE_FORMAT(dob, '%m-%d-%Y') as db, streetAddress, city, state, zip, phone FROM Patients ORDER BY lastName, firstName")
         patients = cur.fetchall()
-        headings = ("SSN", "DOB", "First Name", "Last Name", "Street Address", "City", "State", "Zip Code", "Phone Number", "")
+        cur.execute("SELECT DATE_FORMAT(dob, '%m-%d-%Y') as db FROM Patients")
+        db = cur.fetchall()
+        headings = ("First Name", "Last Name", "SSN", "Date of Birth", "Street Address", "City", "State", "Zip Code", "Phone Number", "")
     
-    return render_template('patients.html', patients = patients, headings = headings)
+    return render_template('patients.html', patients = patients, headings = headings, states=states)
 
 @app.route('/updatepatient/<int:id>', methods=['GET', 'POST'])
 def updatepatient(id):
+    states = {
+    'AK': 'Alaska',
+    'AL': 'Alabama',
+    'AR': 'Arkansas',
+    'AZ': 'Arizona',
+    'CA': 'California',
+    'CO': 'Colorado',
+    'CT': 'Connecticut',
+    'DC': 'District of Columbia',
+    'DE': 'Delaware',
+    'FL': 'Florida',
+    'GA': 'Georgia',
+    'HI': 'Hawaii',
+    'IA': 'Iowa',
+    'ID': 'Idaho',
+    'IL': 'Illinois',
+    'IN': 'Indiana',
+    'KS': 'Kansas',
+    'KY': 'Kentucky',
+    'LA': 'Louisiana',
+    'MA': 'Massachusetts',
+    'MD': 'Maryland',
+    'ME': 'Maine',
+    'MI': 'Michigan',
+    'MN': 'Minnesota',
+    'MO': 'Missouri',
+    'MS': 'Mississippi',
+    'MT': 'Montana',
+    'NC': 'North Carolina',
+    'ND': 'North Dakota',
+    'NE': 'Nebraska',
+    'NH': 'New Hampshire',
+    'NJ': 'New Jersey',
+    'NM': 'New Mexico',
+    'NV': 'Nevada',
+    'NY': 'New York',
+    'OH': 'Ohio',
+    'OK': 'Oklahoma',
+    'OR': 'Oregon',
+    'PA': 'Pennsylvania',
+    'RI': 'Rhode Island',
+    'SC': 'South Carolina',
+    'SD': 'South Dakota',
+    'TN': 'Tennessee',
+    'TX': 'Texas',
+    'UT': 'Utah',
+    'VA': 'Virginia',
+    'VT': 'Vermont',
+    'WA': 'Washington',
+    'WI': 'Wisconsin',
+    'WV': 'West Virginia',
+    'WY': 'Wyoming'
+}
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM Patients WHERE Patients.patientID = %s', (id, ))
     patient = cur.fetchall()
-    return render_template('updatepatient.html', patient=patient)
+    headers = ["First Name", "Last Name", "SSN", "Date of Birth", "Street Address", "City", "State", "Zip Code", "Phone Number"]
+    
+    cur.execute('SELECT state FROM Patients WHERE patientID = %s', [id])
+    curr_state= cur.fetchall()
+    print("STATED" + str(curr_state[0]), file=sys.stderr)
+    #del states[curr_state[0].state]
+    return render_template('updatepatient.html', headers=headers, patient=patient, states=states)
 
 @app.route('/patientdetails', methods=['GET', 'POST'])
 def patientdetails():
     cur = mysql.connection.cursor()
 
     if request.method == 'POST':
-
+            
         # Add new patient details
         if request.form.get('add'):
 
             patient = request.form['patient']
             physician = request.form['physician']
-
-            if request.form['nurse'] != 'None':
-                nurse = request.form['nurse']
+            nurse = request.form['nurse']
+            if nurse == '':
+                query = 'INSERT INTO PatientDetails (patientID, physicianID) VALUES (%s, %s)'
+                cur.execute(query, (patient, physician))
+                mysql.connection.commit()
+            else:
                 query = 'INSERT INTO PatientDetails (patientID, physicianID, nurseID) VALUES (%s, %s, %s)'
                 cur.execute(query, (patient, physician, nurse))
-                mysql.connection.commit()
-            
-            else:
-                query = 'INSERT INTO PatientDetails (patientID, physicianID, nurseID) VALUES (%s, %s, NULL)'
-                cur.execute(query, (patient, physician))
                 mysql.connection.commit()
 
     # Update patient details 
@@ -469,7 +596,7 @@ def patientdetails():
             pid = request.form['pid']
             mdid = request.form['mdid']
 
-            if request.form['nid'] != 'None':
+            if request.form['nid']:
                 nid = request.form['nid']
                 query = 'UPDATE PatientDetails SET physicianID=%s, nurseID=%s WHERE patientID=%s'
                 cur.execute(query, (mdid, nid, pid))
@@ -502,8 +629,8 @@ def patientdetails():
             pd = cur.fetchall()
 
             # get patients not already in PatientDetails
-            cur.execute('''SELECT Patients.patientID, CONCAT(Patients.firstName, ' ', Patients.lastName) as patientName FROM Patients WHERE Patients.patientID NOT IN '''
-            '''(SELECT PatientDetails.patientID FROM PatientDetails)''')
+            cur.execute('''SELECT p.patientID, CONCAT(p.firstName, ' ', p.lastName) as patientName FROM Patients p WHERE p.patientID NOT IN '''
+            '''(SELECT pd.patientID FROM PatientDetails pd)''')
             patients = cur.fetchall()
 
             # get physicians
@@ -511,30 +638,30 @@ def patientdetails():
             physicians = cur.fetchall()
 
             # get nurses
-            cur.execute('''SELECT Nurses.nurseID, CONCAT(Nurses.firstName, ' ', Nurses.lastNAme) nurseName FROM Nurses ''')
+            cur.execute('''SELECT Nurses.nurseID, CONCAT(Nurses.firstName, ' ', Nurses.lastName) nurseName FROM Nurses ''')
             nurses = cur.fetchall()
 
-    if not request.args.get('search'):
+    if not request.args.get('search') or request.args.get('Reset'):
 
         # get data for directory table
-        cur.execute('''SELECT p.patientID, CONCAT (p.firstName, ' ', p.lastName) as patient, CONCAT (md.firstName, ' ', md.lastName) as physician, concat(n.firstName, ' ', n.lastName) as nurse'''
+        cur.execute('''SELECT p.patientID, CONCAT (p.firstName, ' ', p.lastName) as patient, CONCAT (md.firstName, ' ', md.lastName) as physician, IFNULL(concat(n.firstName, ' ', n.lastName), "None") as nurse'''
         ''' FROM PatientDetails pd'''
         ''' INNER JOIN Patients p ON pd.patientID = p.patientID''' 
         ''' INNER JOIN Physicians md ON pd.physicianID = md.physicianID''' 
-        ''' LEFT JOIN Nurses n ON pd.nurseID = n.nurseID''')
+        ''' LEFT JOIN Nurses n ON pd.nurseID = n.nurseID ORDER BY p.lastName, p.firstName''')
         pd = cur.fetchall()
 
         # get patients not already in PatientDetails
-        cur.execute('''SELECT Patients.patientID, CONCAT(Patients.firstName, ' ', Patients.lastName) as patientName FROM Patients WHERE Patients.patientID NOT IN '''
-        '''(SELECT PatientDetails.patientID FROM PatientDetails)''')
+        cur.execute('''SELECT p.patientID, CONCAT(p.firstName, ' ', p.lastName) as patientName FROM Patients p WHERE p.patientID NOT IN '''
+        '''(SELECT pd.patientID FROM PatientDetails pd) ORDER BY p.lastName, p.firstName''')
         patients = cur.fetchall()
 
         # get physicians
-        cur.execute('''SELECT Physicians.physicianID, CONCAT(Physicians.firstName, ' ', Physicians.lastName) as mdName FROM Physicians ''')
+        cur.execute('''SELECT Physicians.physicianID, CONCAT(Physicians.firstName, ' ', Physicians.lastName) as mdName FROM Physicians ORDER BY Physicians.lastName, Physicians.firstName''')
         physicians = cur.fetchall()
 
         # get nurses
-        cur.execute('''SELECT Nurses.nurseID, CONCAT(Nurses.firstName, ' ', Nurses.lastNAme) as nurseName FROM Nurses ''')
+        cur.execute('''SELECT Nurses.nurseID, CONCAT(Nurses.firstName, ' ', Nurses.lastName) as nurseName FROM Nurses ORDER BY Nurses.lastName, Nurses.firstName''')
         nurses = cur.fetchall()
 
     headings = ('Patient', 'Physician', 'Nurse', '')
@@ -543,24 +670,24 @@ def patientdetails():
 @app.route('/updatepd/<int:id>', methods=['GET', 'POST'])
 def updatepd(id):
     cur = mysql.connection.cursor()
-    cur.execute('SELECT * FROM PatientDetails WHERE PatientDetails.patientID = %s', (id, ))
-    pd = cur.fetchall()
+    cur.execute('''SELECT p.patientID, CONCAT (p.firstName, ' ', p.lastName) as patient, md.physicianID, CONCAT (md.firstName, ' ', md.lastName) as physician, n.nurseID, IFNULL(concat(n.firstName, ' ', n.lastName), "None") as nurse'''
+        ''' FROM PatientDetails pd'''
+        ''' INNER JOIN Patients p ON pd.patientID = p.patientID''' 
+        ''' INNER JOIN Physicians md ON pd.physicianID = md.physicianID''' 
+        ''' LEFT JOIN Nurses n ON pd.nurseID = n.nurseID WHERE pd.patientID = %s''', (id, ))
+    curr = cur.fetchall()
 
-    # get patient's name 
-    cur.execute('''SELECT CONCAT(Patients.firstName, ' ', Patients.lastName) as patientName FROM Patients WHERE Patients.patientID=%s''', (id, ))
-    patientname = cur.fetchall()
+    cur.execute('SELECT physicianID, CONCAT(firstName, " ", lastName) as physName FROM Physicians WHERE physicianID NOT IN (SELECT physicianID FROM PatientDetails WHERE patientID = %s)', [id])
+    all_phys = cur.fetchall()
 
-    # get physicians
-    cur.execute('''SELECT Physicians.physicianID, CONCAT(Physicians.firstName, ' ', Physicians.lastName) as mdName FROM Physicians ''')
-    physicians = cur.fetchall()
+    cur.execute('SELECT nurseID, CONCAT(firstName, " ", lastName) as nursName FROM Nurses WHERE nurseID NOT IN (SELECT nurseID FROM PatientDetails WHERE patientID = %s)', [id])
+    all_nurse = cur.fetchall()
 
-    # get nurses
-    cur.execute('''SELECT Nurses.nurseID, CONCAT(Nurses.firstName, ' ', Nurses.lastNAme) nurseName FROM Nurses ''')
-    nurses = cur.fetchall()
+    if all_nurse == ():
+        cur.execute('SELECT nurseID, CONCAT(firstName, " ", lastName) as nursName FROM Nurses')
+        all_nurse = cur.fetchall()
 
-    return render_template('updatepd.html', pd = pd, physicians = physicians, nurses = nurses, patientname = patientname)
-
+    return render_template('updatepd.html', headers=['Patient', 'Physician', 'Nurse'], curr = curr, all_phys = all_phys, all_nurse=all_nurse)
 
 if __name__ == "__main__":
-    app.run('127.0.0.1', port=5010, debug=True)
-
+    app.run('127.0.0.1', port=60000, debug=True)
