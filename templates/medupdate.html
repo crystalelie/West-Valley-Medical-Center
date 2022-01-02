@@ -47,7 +47,13 @@
 
             <td> <input name='2' value={{info[1]}} type='number' pattern="[0-9]+"  required='required' title='Numbers Only'> </td>
 
-            <td> <input name='3' value={{info[2]}} type='text' pattern="g|mg|ml"  required='required' title='Acceptable Notation: g, mg, or ml'> </td>
+            <td>
+              <select id="3" name="3">
+                <option>{{info[2]}}</option>
+                {% for i in unit %}
+                <option value={{i.dosageUnit}}>{{i.dosageUnit}}</option>
+                {%endfor%}
+              </select></td>
 
             <td><input name="New" type="submit" value="Submit"></td>
           </tbody>

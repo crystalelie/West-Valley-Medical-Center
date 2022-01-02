@@ -44,17 +44,17 @@
             <td>{{i.lastName}}</td>
             <td>{{i.specialty}}</td>
             <td>
+              <form style="display:inline-block;" method="POST" id="Update" name="Update">
+                <input type="hidden"  name="id" value={{i.physicianID}}>
+                <input type="hidden"  name="fname" value={{i.firstName}}>
+                <input type="hidden"  name="lname" value={{i.lastName}}>
+                <input type="hidden"  name="specialty" value={{i.specialty}}>
+                <button type="submit" name="Update" value="Update">Update</button>
+                </form> 
+
               <form style="display:inline-block;" method="POST" id="Delete" name="Delete">
               <input type="hidden"  name="id" value={{i.physicianID}}>
               <button type="submit" name="Delete" value="Delete">Delete</button>
-              </form> 
-
-              <form style="display:inline-block;" method="POST" id="Update" name="Update">
-              <input type="hidden"  name="id" value={{i.physicianID}}>
-              <input type="hidden"  name="fname" value={{i.firstName}}>
-              <input type="hidden"  name="lname" value={{i.lastName}}>
-              <input type="hidden"  name="specialty" value={{i.specialty}}>
-              <button type="submit" name="Update" value="Update">Update</button>
               </form> 
             </td>
             {%endfor%}

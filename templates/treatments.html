@@ -44,22 +44,23 @@
             <td>{{i.name}}</td>
             <td>{{i.medicationName}}</td>
             <td>{{i.frequency}}</td>
-            <td>              
+            <td>   
+              <form style="display:inline-block;" method="POST" id="Update" name="Update">
+                <input type="hidden"  name="id" value={{i.treatmentID}}>
+                <input type="hidden"  name="fname" value={{i.firstName}}>
+                <input type="hidden"  name="lname" value={{i.lastName}}>
+                <input type="hidden"  name="patID" value={{i.patientID}}>
+                <input type="hidden"  name="medication" value={{i.medicationName}}>
+                <input type="hidden"  name="medID" value={{i.medicationID}}>
+                <input type="hidden"  name="frequency" value={{i.frequency}}>
+                <button type="submit" name="Update" value="Update">Update</button>
+                </form> 
+                           
               <form style="display:inline-block;" method="POST" id="Delete" name="Delete">
               <input type="hidden"  name="id" value={{i.treatmentID}}>
               <button type="submit" name="Delete" value="Delete">Delete</button>
               </form> 
-              
-              <form style="display:inline-block;" method="POST" id="Update" name="Update">
-              <input type="hidden"  name="id" value={{i.treatmentID}}>
-              <input type="hidden"  name="fname" value={{i.firstName}}>
-              <input type="hidden"  name="lname" value={{i.lastName}}>
-              <input type="hidden"  name="patID" value={{i.patientID}}>
-              <input type="hidden"  name="medication" value={{i.medicationName}}>
-              <input type="hidden"  name="medID" value={{i.medicationID}}>
-              <input type="hidden"  name="frequency" value={{i.frequency}}>
-              <button type="submit" name="Update" value="Update">Update</button>
-              </form> </td>
+              </td>
             {%endfor%}
           </tbody>
 
@@ -78,7 +79,7 @@
           <label for="name">Patient*:</label>
           <select id="name" name="name" required>
             <option></option>
-            {% for i in names %}
+            {% for i in add_name %}
             <option value={{i.patientID}}>{{i.name}}</option>
             {%endfor%}
           </select>
@@ -87,7 +88,7 @@
           <label for="medication">Medication*:</label>
           <select id="medication" name="medication" required>
             <option></option>
-            {% for i in meds %}
+            {% for i in add_med %}
             <option value={{i.medicationID}}>{{i.medicationName}}</option>
             {%endfor%}
           </select>
@@ -151,7 +152,7 @@
       </br>
         <input name="Filter" type="submit" value="Submit">
       </br>
-        <input name="Reset" type="submit" value="Refresh">
+        <input name="Reset" type="submit" value="Refresh Page">
       </fieldset>
       </form>
     </div>

@@ -28,85 +28,38 @@
                     <form method='POST' action="{{ url_for('patients') }}">
                         <fieldset>
                             <input type="hidden" name="id" value='{{ patient[0].patientID }}'>
-                            <label for="ssn">SSN*:</label>
-                            <input type="text" id="ssn" name="ssn" value='{{ patient[0].ssn }}' pattern="[0-9]{9}" required>
-                            <br>
-                            <br>
-                            <label for="dob">Date of Birth*:</label>
-                            <input type="text" id="dob" name="dob" value='{{ patient[0].dob }}' required>
-                            <br>
-                            <br>
                             <label for="fname">First Name*:</label>
-                            <input type="text" id="fname" name="fname" value='{{ patient[0].firstName }}' pattern="[A-Za-z]+" required>
+                            <input type="text" id="fname" name="fname" value='{{ patient[0].firstName }}' required>
                             <br>
                             <br>
                             <label for="lname">Last Name*:</label>
-                            <input type="text" id="lname" name="lname" value='{{ patient[0].lastName }}' pattern="[A-Za-z]+" required>
+                            <input type="text" id="lname" name="lname" value='{{ patient[0].lastName }}' required>
+                            <br>
+                            <br>
+                            <label for="ssn">SSN*:</label>
+                            <input type="text" id="ssn" name="ssn" value='{{ patient[0].ssn }}' required>
+                            <br>
+                            <br>
+                            <label for="dob">Date of Birth*:</label>
+                            <input type="date" id="dob" name="dob" value='{{ patient[0].dob }}' required>
                             <br>
                             <br>
                             <label for="street">Street Address*:</label>
-                            <input type="text" id="street" name="street" value='{{ patient[0].streetAddress }}' pattern="([0-9])+)[ ]{0,1})([A-Za-z])+([ ])*([A-Za-z])*" required>
+                            <input type="text" id="street" name="street" value='{{ patient[0].streetAddress }}' required>
                             <br>
                             <br>
                             <label for="city">City*:</label>
-                            <input type="text" id="city" name="city" value='{{ patient[0].city }}' pattern="[A-Za-z]+" required>
+                            <input type="text" id="city" name="city" value='{{ patient[0].city }}' required>
                             <br>
                             <br>
                             <label for="state">State*:</label>
                             <select id="state" name="state" required>
-                                <option value="AL">Alabama</option>
-                                <option value="AK" {% if patient[0].state == 'AK' %} selected {% endif %}>Alaska</option>
-                                <option value="AZ" {% if patient[0].state == 'AZ' %} selected {% endif %}>Arizona</option>
-                                <option value="AR" {% if patient[0].state == 'AR' %} selected {% endif %}>Arkansas</option>
-                                <option value="CA" {% if patient[0].state == 'CA' %} selected {% endif %}>California</option>
-                                <option value="CO" {% if patient[0].state == 'CO' %} selected {% endif %}>Colorado</option>
-                                <option value="CT" {% if patient[0].state == 'CT' %} selected {% endif %}>Connecticut</option>
-                                <option value="DE" {% if patient[0].state == 'DE' %} selected {% endif %}>Delaware</option>
-                                <option value="DC" {% if patient[0].state == 'DC' %} selected {% endif %}>District Of Columbia</option>
-                                <option value="FL" {% if patient[0].state == 'FL' %} selected {% endif %}>Florida</option>
-                                <option value="GA" {% if patient[0].state == 'GA' %} selected {% endif %}>Georgia</option>
-                                <option value="HI" {% if patient[0].state == 'HI' %} selected {% endif %}>Hawaii</option>
-                                <option value="ID" {% if patient[0].state == 'ID' %} selected {% endif %}>Idaho</option>
-                                <option value="IL" {% if patient[0].state == 'IL' %} selected {% endif %}>Illinois</option>
-                                <option value="IN" {% if patient[0].state == 'IN' %} selected {% endif %}>Indiana</option>
-                                <option value="IA" {% if patient[0].state == 'IA' %} selected {% endif %}>Iowa</option>
-                                <option value="KS" {% if patient[0].state == 'KS' %} selected {% endif %}>Kansas</option>
-                                <option value="KY" {% if patient[0].state == 'KY' %} selected {% endif %}>Kentucky</option>
-                                <option value="LA" {% if patient[0].state == 'LA' %} selected {% endif %}>Louisiana</option>
-                                <option value="ME" {% if patient[0].state == 'ME' %} selected {% endif %}>Maine</option>
-                                <option value="MD" {% if patient[0].state == 'MD' %} selected {% endif %}>Maryland</option>
-                                <option value="MA" {% if patient[0].state == 'MA' %} selected {% endif %}>Massachusetts</option>
-                                <option value="MI" {% if patient[0].state == 'MI' %} selected {% endif %}>Michigan</option>
-                                <option value="MN" {% if patient[0].state == 'MN' %} selected {% endif %}>Minnesota</option>
-                                <option value="MS" {% if patient[0].state == 'MS' %} selected {% endif %}>Mississippi</option>
-                                <option value="MO" {% if patient[0].state == 'MO' %} selected {% endif %}>Missouri</option>
-                                <option value="MT" {% if patient[0].state == 'MT' %} selected {% endif %}>Montana</option>
-                                <option value="NE" {% if patient[0].state == 'NE' %} selected {% endif %}>Nebraska</option>
-                                <option value="NV" {% if patient[0].state == 'NV' %} selected {% endif %}>Nevada</option>
-                                <option value="NH" {% if patient[0].state == 'NH' %} selected {% endif %}>New Hampshire</option>
-                                <option value="NJ" {% if patient[0].state == 'NJ' %} selected {% endif %}>New Jersey</option>
-                                <option value="NM" {% if patient[0].state == 'NM' %} selected {% endif %}>New Mexico</option>
-                                <option value="NY" {% if patient[0].state == 'NY' %} selected {% endif %}>New York</option>
-                                <option value="NC" {% if patient[0].state == 'NC' %} selected {% endif %}>North Carolina</option>
-                                <option value="ND" {% if patient[0].state == 'ND' %} selected {% endif %}>North Dakota</option>
-                                <option value="OH" {% if patient[0].state == 'OH' %} selected {% endif %}>Ohio</option>
-                                <option value="OK" {% if patient[0].state == 'OK' %} selected {% endif %}>Oklahoma</option>
-                                <option value="OR" {% if patient[0].state == 'OR' %} selected {% endif %}>Oregon</option>
-                                <option value="PA" {% if patient[0].state == 'PA' %} selected {% endif %}>Pennsylvania</option>
-                                <option value="RI" {% if patient[0].state == 'RI' %} selected {% endif %}>Rhode Island</option>
-                                <option value="SC" {% if patient[0].state == 'SC' %} selected {% endif %}>South Carolina</option>
-                                <option value="SD" {% if patient[0].state == 'SD' %} selected {% endif %}>South Dakota</option>
-                                <option value="TN" {% if patient[0].state == 'TN' %} selected {% endif %}>Tennessee</option>
-                                <option value="TX" {% if patient[0].state == 'TX' %} selected {% endif %}>Texas</option>
-                                <option value="UT" {% if patient[0].state == 'UT' %} selected {% endif %}>Utah</option>
-                                <option value="VT" {% if patient[0].state == 'VT' %} selected {% endif %}>Vermont</option>
-                                <option value="VA" {% if patient[0].state == 'VA' %} selected {% endif %}>Virginia</option>
-                                <option value="WA" {% if patient[0].state == 'WA' %} selected {% endif %}>Washington</option>
-                                <option value="WV" {% if patient[0].state == 'WV' %} selected {% endif %}>West Virginia</option>
-                                <option value="WI" {% if patient[0].state == 'WI' %} selected {% endif %}>Wisconsin</option>
-                                <option value="WY" {% if patient[0].state == 'WY' %} selected {% endif %}>Wyoming</option>
-                              </select>
-                            <br>
+                                <option>{{patient[0].state}}</option>
+                                {% for i in states %}
+                                <option value={{i}}>{{states[i]}}</option>
+                                {%endfor%}
+                                </select>
+                                <br>
                             <br>
                             <label for="zip">Zip Code*:</label>
                             <input type="text" id="zip" name="zip" value='{{ patient[0].zip }}' required>

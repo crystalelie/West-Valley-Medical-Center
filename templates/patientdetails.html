@@ -25,7 +25,7 @@
     </div>
 
     <div class="col-s-9">
-      <div style="text-align: center;"><h1>Patient Details</h1></div>
+      <div style="text-align: center;"><h1>Patient Details Directory</h1></div>
   
       <div class="table" style="margin-left: auto; margin-right: auto;">
         <table>
@@ -56,31 +56,36 @@
       <div class="float">
         <div class="child">
           <h1 style="text-align: center;">Add Patient Details</h1>
-          <p>Add new patient details by entering the patient's</p>
-          <p>ID, the Physician's ID and the Nurse's ID.</p>
-          <p>You may only add details for patients who have not </p>
-          <p>had one added previously.</p>
+          <p>Add new patient details by selcting the  </br>
+          Patient's name, the Physician's name and </br>
+          (if applicable) the Nurse's name. </br> 
+        </br> 
+          You may only add details for patients who are not </br>
+          currently assigned a Physician.</p>
           <form method="POST">
             <fieldset>
-              <label for="patient">Patient Name*:</label>
-              <select name='patient'>
-                {% for patient in patients %}
-                <option value='{{ patient.patientID }}'>{{ patient.patientName }}</option>
+              <label for="patient">Patient*:</label>
+              <select name='patient' required>
+                <option></option>
+                {% for p in patients %}
+                <option value='{{ p.patientID }}'>{{ p.patientName }}</option>
                 {% endfor %}
               </select>
               <br>
               <br>
-              <label for="physician">Physician Name*:</label>
-              <select name='physician'>
+              <label for="physician">Physician*:</label>
+              <select name='physician' required>
+                <option></option>
                 {% for physician in physicians %}
                 <option value='{{ physician.physicianID }}'>{{ physician.mdName }}</option>
                 {% endfor %}
               </select>
               <br>
               <br>
-              <label for="nurse">Nurse Name*:</label>
+              <label for="nurse">Nurse:</label>
               <select name='nurse'>
-                <option value='None'>None</option>
+                <option></option>
+                <option value=''> None</option>
                 {% for nurse in nurses %}
                 <option value='{{ nurse.nurseID }}'>{{ nurse.nurseName }}</option>
                 {% endfor %}
@@ -99,6 +104,7 @@
             <fieldset>
               <label for="patient">Patient*:</label>
               <select name='patient'>
+                <option></option>
                 {% for patient in pd %}
                 <option value='{{ patient.patientID }}'>{{ patient.patient}} </option>
                 {% endfor %}
@@ -106,6 +112,9 @@
               <br>
               <br>
               <input type="submit" name='search' value="Submit">
+              <br>
+              <input name="Reset" type="submit" value="Refresh Page">
+
             </fieldset>
           </form>
         </div>

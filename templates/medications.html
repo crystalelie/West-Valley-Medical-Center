@@ -46,19 +46,19 @@
             <td>{{i.dosage}}</td>
             <td>{{i.dosageUnit}}</td>
             <td>
+              <form style="display:inline-block;" method="POST" id="Update" name="Update">
+                <input type="hidden"  name="id" value={{i.medicationID}}>
+                <input type="hidden"  name="name" value={{i.medicationName}}>
+                <input type="hidden"  name="dosage" value={{i.dosage}}>
+                <input type="hidden"  name="unit" value={{i.dosageUnit}}>
+                <button type="submit" name="Update" value="Update">Update</button>
+                </form> 
+                
               <form style="display:inline-block;" method="POST" id="Delete" name="Delete">
               <input type="hidden"  name="id" value={{i.medicationID}}>
               <button type="submit" name="Delete" value="Delete">Delete</button>
               </form>
               
-
-              <form style="display:inline-block;" method="POST" id="Update" name="Update">
-              <input type="hidden"  name="id" value={{i.medicationID}}>
-              <input type="hidden"  name="name" value={{i.medicationName}}>
-              <input type="hidden"  name="dosage" value={{i.dosage}}>
-              <input type="hidden"  name="unit" value={{i.dosageUnit}}>
-              <button type="submit" name="Update" value="Update">Update</button>
-              </form> 
             </td>
             {%endfor%}
           </tbody>
@@ -103,7 +103,7 @@
       <p>like to search for.</p>
       <form method="POST">
         <fieldset>
-          <label for="filter1">Filter By*:</label>
+          <label for="filter1">Search By*:</label>
           <select id="filter1" name="filter1">
             <option value=""></option>
             <option value="Med">Medication</option>
@@ -137,9 +137,9 @@
             <label for="result2">Unit*:</label>
               <select id="result2" name="result2">
                 <option></option>
-                <option value='g'>g</option>
-                <option value='mg'>mg</option>
-                <option value='ml'>ml</option>
+                {% for i in unit %}
+                <option value={{i.dosageUnit}}>{{i.dosageUnit}}</option>
+                {%endfor%}
               </select>
           </div>
               
